@@ -14,7 +14,7 @@ dungeon te verkennen en loot te verzamelen de dungeon te overkomen. Wanneer dit 
 je erachter dat de dungeon opnieuw start, maar deze keer is het meer kwaadaardig dan ervoor.
 Jij als speler wordt echter ook sterker.
 
-# Gamplay Voorbeeld:
+# Gameplay Voorbeeld:
 Je hebt de dungeon bijna veroverd en begint net aan de boss fight, je bent echter underleveled
 en verliest tegen de boss.
 Je wordt terug gestuurd met maar de helft van de rewards die je normaal zou krijgen van te winnen.
