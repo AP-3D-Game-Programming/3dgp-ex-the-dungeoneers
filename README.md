@@ -20,9 +20,9 @@ en verliest tegen de boss.
 Je wordt terug gestuurd met maar de helft van de rewards die je normaal zou krijgen van te winnen.
 
 # Gelijkaardige Games:
-Hades
-Enter the Gungeon
-The Binding of Isaac: Rebirth
+Hades,
+Enter the Gungeon,
+The Binding of Isaac: Rebirth,
 Dungeon of the Endless
 
 # Unique selling point:
