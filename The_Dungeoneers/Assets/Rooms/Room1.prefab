@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4835834986774718832}
   - component: {fileID: 8849956088581665012}
   - component: {fileID: 5240120379302445750}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,7 +124,7 @@ GameObject:
   - component: {fileID: 1480480708845290582}
   - component: {fileID: 83631236005894380}
   - component: {fileID: 5461195782997657082}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Step_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -237,7 +237,7 @@ GameObject:
   - component: {fileID: 3779876560045014515}
   - component: {fileID: 4328299940740874219}
   - component: {fileID: 3701874268563399157}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -349,7 +349,7 @@ GameObject:
   - component: {fileID: 3600957709090532075}
   - component: {fileID: 3947915709622971183}
   - component: {fileID: 4259514854797279051}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Handrail_A
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -461,7 +461,7 @@ GameObject:
   - component: {fileID: 7747753572613031169}
   - component: {fileID: 2159270008348093734}
   - component: {fileID: 1881028371038153241}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Handrail_A (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -573,7 +573,7 @@ GameObject:
   - component: {fileID: 3602888944146577482}
   - component: {fileID: 5631538622737714967}
   - component: {fileID: 8745415594296777196}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Handrail_A (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -685,7 +685,7 @@ GameObject:
   - component: {fileID: 5461687776734300564}
   - component: {fileID: 5507475971284526931}
   - component: {fileID: 6356749469855796365}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall_A (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -797,7 +797,7 @@ GameObject:
   - component: {fileID: 8735406554091522805}
   - component: {fileID: 8106570253097917949}
   - component: {fileID: 8113770081711141666}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall_A (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -909,7 +909,7 @@ GameObject:
   - component: {fileID: 3131336778280276202}
   - component: {fileID: 2607716505959466933}
   - component: {fileID: 191549230201029117}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Tile_B
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1021,7 +1021,7 @@ GameObject:
   - component: {fileID: 5009152326936473638}
   - component: {fileID: 6068018551350527788}
   - component: {fileID: 7383575509695560102}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall_A (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1133,7 +1133,7 @@ GameObject:
   - component: {fileID: 6106109179010411613}
   - component: {fileID: 1075097975585412940}
   - component: {fileID: 1949742939543388135}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall_B (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1245,7 +1245,7 @@ GameObject:
   - component: {fileID: 9091217491037040094}
   - component: {fileID: 3635994235752114006}
   - component: {fileID: 1597059636974833665}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall_A (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1357,7 +1357,7 @@ GameObject:
   - component: {fileID: 7011893572181361054}
   - component: {fileID: 3136609581253862902}
   - component: {fileID: 3093221860360981462}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Handrail_A (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1469,7 +1469,7 @@ GameObject:
   - component: {fileID: 1176755368939484106}
   - component: {fileID: 2454524525661581324}
   - component: {fileID: 1805173638876251796}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Wall_A (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1581,7 +1581,7 @@ GameObject:
   - component: {fileID: 8973400668609295590}
   - component: {fileID: 5254584524394768757}
   - component: {fileID: 3564131221856769594}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Handrail_A (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1690,9 +1690,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 279170765380604359}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Room1
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -1744,7 +1744,7 @@ GameObject:
   - component: {fileID: 1202066251215834676}
   - component: {fileID: 4540724369280534270}
   - component: {fileID: 7593339628531060767}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Handrail_A (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1855,6 +1855,10 @@ PrefabInstance:
     - target: {fileID: 118458008299423567, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
       propertyPath: m_Name
       value: Pillar_A
+      objectReference: {fileID: 0}
+    - target: {fileID: 118458008299423567, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 787857542793174517, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
       propertyPath: m_LocalScale.x
@@ -2012,6 +2016,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Tile_B
       objectReference: {fileID: 0}
+    - target: {fileID: 4202724668555032227, guid: f96442df40a0bf74bbd6431cf2ee05d9, type: 3}
+      propertyPath: m_Layer
+      value: 6
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2063,6 +2071,10 @@ PrefabInstance:
     - target: {fileID: 118458008299423567, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
       propertyPath: m_Name
       value: Pillar_A (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 118458008299423567, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 787857542793174517, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
       propertyPath: m_LocalScale.x
@@ -2167,6 +2179,10 @@ PrefabInstance:
     - target: {fileID: 118458008299423567, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
       propertyPath: m_Name
       value: Pillar_A (2)
+      objectReference: {fileID: 0}
+    - target: {fileID: 118458008299423567, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
+      propertyPath: m_Layer
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 787857542793174517, guid: 1211a8a70ccbf8941b4f049e54df814a, type: 3}
       propertyPath: m_LocalScale.x
