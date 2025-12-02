@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 7626063723419917817}
   - component: {fileID: 8227959819778103124}
   - component: {fileID: 891377412592683887}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: gang
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
