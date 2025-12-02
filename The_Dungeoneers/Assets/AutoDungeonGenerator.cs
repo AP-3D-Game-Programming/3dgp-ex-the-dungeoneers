@@ -1,13 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
-using System.Diagnostics.Contracts;
 
 public class AutoDungeonGenerator : MonoBehaviour
 {
+    [Header("Prefabs - Dungeon")]
     public GameObject vloerPrefab;
     public GameObject muurPrefab;
     public GameObject deurPrefab;
-    private float tileSize = 4f;
+
+    [Header("Prefabs - Enemies")]
+    public List<EnemySpawnInfo> enemyTypes = new List<EnemySpawnInfo>();
 
     [Header("Dungeon Settings")]
     public int aantalKamers = 5;
@@ -16,19 +18,51 @@ public class AutoDungeonGenerator : MonoBehaviour
     public int minGangLengte = 5;
     public int maxGangLengte = 10;
 
+    [Header("Enemy Settings")]
+    public bool spawnsEnemiesInEersteKamer = false;
+    [Range(0f, 1f)]
+    public float kamerEnemySpawnKans = 0.8f;
+    public int minEnemiesPerKamer = 1;
+    public int maxEnemiesPerKamer = 5;
+    public float enemySpawnMargin = 1;  // Afstand van muren
+
     [Range(0f, 1f)]
     public float gangKans = 0.5f;
 
+    private float tileSize = 4f;
     private GameObject dungeonParent;
+    private GameObject enemiesParent;
     private List<Kamer> kamers = new List<Kamer>();
-    private List<Gang> gangen = new List<Gang>(); // ← Fixed (was "new")
+    private List<Gang> gangen = new List<Gang>();
+    private List<GameObject> gespawndeEnemies = new List<GameObject>();
 
-    // Kamer class
+    // ══════════════════════════════════════════════════════════════
+    // CLASSES
+    // ══════════════════════════════════════════════════════════════
+
+    [System.Serializable]
+    public class EnemySpawnInfo
+    {
+        public string naam = "Enemy";
+        public GameObject prefab;
+        [Range(1, 100)]
+        public int spawnGewicht = 10;  // Hogere waarde = vaker spawnen
+        public int minimumKamerGrootte = 0;  // 0 = geen minimum
+    }
+
     [System.Serializable]
     public class Kamer
     {
         public int x, z;
         public int breedte, diepte;
+        public KamerType type = KamerType.Normaal;
+        public List<GameObject> enemies = new List<GameObject>();
+
+        // Handige properties
+        public int Oppervlakte => breedte * diepte;
+        public int CenterX => x + breedte / 2;
+        public int CenterZ => z + diepte / 2;
+        public Vector3 CenterWorld(float tileSize) => new Vector3(CenterX * tileSize, 0, CenterZ * tileSize);
 
         public Kamer(int x, int z, int breedte, int diepte)
         {
@@ -45,21 +79,46 @@ public class AutoDungeonGenerator : MonoBehaviour
                      z + diepte < andere.z ||
                      z > andere.z + andere.diepte);
         }
+
         public bool Bevat(int checkX, int checkZ)
         {
             return checkX >= x && checkX < x + breedte &&
                    checkZ >= z && checkZ < z + diepte;
         }
+
+        // Geeft een random positie binnen de kamer (met margin van de muren)
+        public Vector3 GetRandomPositie(float tileSize, float margin = 1f)
+        {
+            float minX = (x + margin) * tileSize;
+            float maxX = (x + breedte - margin) * tileSize;
+            float minZ = (z + margin) * tileSize;
+            float maxZ = (z + diepte - margin) * tileSize;
+
+            return new Vector3(
+                Random.Range(minX, maxX),
+                0f,
+                Random.Range(minZ, maxZ)
+            );
+        }
     }
 
-    // Gang class
+    public enum KamerType
+    {
+        Normaal,
+        Start,
+        Boss,
+        Treasure,
+        Safe  // Geen enemies
+    }
+
     [System.Serializable]
     public class Gang
     {
-        public int startX, startZ;      // Start positie
-        public int eindX, eindZ;        // Eind positie
-        public bool isHorizontaal;      // Richting
-        public List<Vector2Int> tiles = new List<Vector2Int>(); // Alle vloer posities
+        public int startX, startZ;
+        public int eindX, eindZ;
+        public bool isHorizontaal;
+        public List<Vector2Int> tiles = new List<Vector2Int>();
+
         public int Lengte
         {
             get
@@ -70,6 +129,7 @@ public class AutoDungeonGenerator : MonoBehaviour
                     return Mathf.Abs(eindZ - startZ) + 1;
             }
         }
+
         public Gang(int startX, int startZ, int eindX, int eindZ, bool isHorizontaal)
         {
             this.startX = startX;
@@ -85,25 +145,49 @@ public class AutoDungeonGenerator : MonoBehaviour
         }
     }
 
-    [ContextMenu("Genereer Dungeon (Alleen Vloeren)")]
+    // ══════════════════════════════════════════════════════════════
+    // MAIN GENERATION
+    // ══════════════════════════════════════════════════════════════
+
+    [ContextMenu("Genereer Dungeon")]
     public void GenereerDungeon()
     {
-        if (dungeonParent != null)
-            DestroyImmediate(dungeonParent);
+        // Cleanup
+        VerwijderDungeon();
 
+        // Maak parent objecten
         dungeonParent = new GameObject("Dungeon");
-        kamers.Clear();
-        gangen.Clear();
+        enemiesParent = new GameObject("Enemies");
+        enemiesParent.transform.parent = dungeonParent.transform;
 
+        // 1. Genereer kamers
+        GenereerAlleKamers();
+
+        // 2. Wijs kamer types toe
+        WijsKamerTypesToe();
+
+        // 3. Plaats muren en deuren
+        PlaatsAlleKamerMuren();
+        PlaatsAlleGangMuren();
+
+        // 4. Spawn enemies
+        SpawnAlleEnemies();
+
+        Debug.Log($"Dungeon klaar: {kamers.Count} kamers, {gangen.Count} gangen, {gespawndeEnemies.Count} enemies");
+    }
+
+    void GenereerAlleKamers()
+    {
         // Maak eerste kamer
         Kamer eersteKamer = new Kamer(0, 0,
             Random.Range(minKamerGrootte, maxKamerGrootte),
             Random.Range(minKamerGrootte, maxKamerGrootte));
+        eersteKamer.type = KamerType.Start;
 
         kamers.Add(eersteKamer);
         PlaatsKamerVloeren(eersteKamer);
 
-        // Voeg meer kamers toe met meerdere pogingen
+        // Voeg meer kamers toe
         int toegevoegdeKamers = 1;
         int maxPogingen = aantalKamers * 10;
         int pogingen = 0;
@@ -112,10 +196,7 @@ public class AutoDungeonGenerator : MonoBehaviour
         {
             pogingen++;
 
-            // Kies random bestaande kamer
             Kamer oudeKamer = kamers[Random.Range(0, kamers.Count)];
-
-            // Probeer nieuwe kamer toe te voegen
             Kamer nieuweKamer = ProbeeerKamerToevoegen(oudeKamer);
 
             if (nieuweKamer != null)
@@ -123,18 +204,137 @@ public class AutoDungeonGenerator : MonoBehaviour
                 kamers.Add(nieuweKamer);
                 PlaatsKamerVloeren(nieuweKamer);
                 MaakGangVloeren(oudeKamer, nieuweKamer);
-
                 toegevoegdeKamers++;
-                Debug.Log($"Kamer {toegevoegdeKamers}/{aantalKamers} toegevoegd na {pogingen} pogingen");
             }
         }
-
-        // 2. Muren en Deuren plaatsen
-        PlaatsAlleKamerMuren(); // Plaatst muren rond kamers + deuren
-        PlaatsAlleGangMuren();  // NIEUW: Plaatst muren langs gangen
-
-        Debug.Log($"Dungeon klaar: {kamers.Count} kamers, {gangen.Count} gangen");
     }
+
+    void WijsKamerTypesToe()
+    {
+        // Eerste kamer is al Start
+        // Laatste kamer kan Boss zijn
+        if (kamers.Count > 2)
+        {
+            kamers[kamers.Count - 1].type = KamerType.Boss;
+        }
+
+        // Eventueel: random treasure kamers
+        for (int i = 1; i < kamers.Count - 1; i++)
+        {
+            if (Random.value < 0.1f)  // 10% kans
+            {
+                kamers[i].type = KamerType.Treasure;
+            }
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // ENEMY SPAWNING
+    // ══════════════════════════════════════════════════════════════
+
+    void SpawnAlleEnemies()
+    {
+        if (enemyTypes.Count == 0)
+        {
+            Debug.LogWarning("Geen enemy types geconfigureerd!");
+            return;
+        }
+
+        for (int i = 0; i < kamers.Count; i++)
+        {
+            Kamer kamer = kamers[i];
+
+            // Skip eerste kamer als ingesteld
+            if (i == 0 && !spawnsEnemiesInEersteKamer)
+                continue;
+
+            // Skip safe kamers
+            if (kamer.type == KamerType.Safe || kamer.type == KamerType.Start)
+                continue;
+
+            // Check spawn kans
+            if (Random.value > kamerEnemySpawnKans)
+                continue;
+
+            // Spawn enemies in deze kamer
+            SpawnEnemiesInKamer(kamer);
+        }
+    }
+
+    void SpawnEnemiesInKamer(Kamer kamer)
+    {
+        // Bepaal aantal enemies (schaal met kamer grootte)
+        int baseAantal = Random.Range(minEnemiesPerKamer, maxEnemiesPerKamer + 1);
+
+        // Bonus enemies voor grote kamers
+        int bonusEnemies = kamer.Oppervlakte > 50 ? Random.Range(0, 3) : 0;
+
+        // Boss kamers krijgen meer enemies
+        if (kamer.type == KamerType.Boss)
+        {
+            baseAantal += 2;
+        }
+
+        int totaalEnemies = baseAantal + bonusEnemies;
+
+        // Spawn elke enemy
+        for (int i = 0; i < totaalEnemies; i++)
+        {
+            EnemySpawnInfo enemyInfo = KiesRandomEnemy(kamer);
+
+            if (enemyInfo == null || enemyInfo.prefab == null)
+                continue;
+
+            Vector3 spawnPos = kamer.GetRandomPositie(tileSize, enemySpawnMargin);
+
+            GameObject enemy = Instantiate(
+                enemyInfo.prefab,
+                spawnPos,
+                Quaternion.Euler(0, Random.Range(0f, 360f), 0)
+            );
+
+            enemy.transform.parent = enemiesParent.transform;
+            enemy.name = $"{enemyInfo.naam}_{kamer.CenterX}_{kamer.CenterZ}_{i}";
+
+            kamer.enemies.Add(enemy);
+            gespawndeEnemies.Add(enemy);
+        }
+    }
+
+    EnemySpawnInfo KiesRandomEnemy(Kamer kamer)
+    {
+        // Filter enemies die in deze kamer mogen spawnen
+        List<EnemySpawnInfo> beschikbaar = new List<EnemySpawnInfo>();
+        int totaalGewicht = 0;
+
+        foreach (EnemySpawnInfo info in enemyTypes)
+        {
+            if (info.prefab == null) continue;
+            if (info.minimumKamerGrootte > kamer.Oppervlakte) continue;
+
+            beschikbaar.Add(info);
+            totaalGewicht += info.spawnGewicht;
+        }
+
+        if (beschikbaar.Count == 0) return null;
+
+        // Gewogen random selectie
+        int randomWaarde = Random.Range(0, totaalGewicht);
+        int huidigeWaarde = 0;
+
+        foreach (EnemySpawnInfo info in beschikbaar)
+        {
+            huidigeWaarde += info.spawnGewicht;
+            if (randomWaarde < huidigeWaarde)
+                return info;
+        }
+
+        return beschikbaar[0];
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // MUREN EN VLOEREN (Origineel behouden)
+    // ══════════════════════════════════════════════════════════════
 
     void PlaatsAlleKamerMuren()
     {
@@ -151,54 +351,27 @@ public class AutoDungeonGenerator : MonoBehaviour
 
                     if (!isRand) continue;
 
-                    CheckEnPlaatsKamerMuur(kamer, x, z, -1, 0, 90f); // Links
-                    CheckEnPlaatsKamerMuur(kamer, x, z, 1, 0, 90f);  // Rechts
-                    CheckEnPlaatsKamerMuur(kamer, x, z, 0, -1, 0f);  // Achter
-                    CheckEnPlaatsKamerMuur(kamer, x, z, 0, 1, 0f);   // Voor
+                    CheckEnPlaatsKamerMuur(kamer, x, z, -1, 0, 90f);
+                    CheckEnPlaatsKamerMuur(kamer, x, z, 1, 0, 90f);
+                    CheckEnPlaatsKamerMuur(kamer, x, z, 0, -1, 0f);
+                    CheckEnPlaatsKamerMuur(kamer, x, z, 0, 1, 0f);
                 }
             }
         }
     }
-    
-    void PlaatsKamerMuren(Kamer kamer)
-    {
-        // Loop rondom de kamer (de rand)
-        for (int x = kamer.x; x < kamer.x + kamer.breedte; x++)
-        {
-            for (int z = kamer.z; z < kamer.z + kamer.diepte; z++)
-            {
-                // Is dit een rand positie?
-                bool isRand = (x == kamer.x ||
-                              x == kamer.x + kamer.breedte - 1 ||
-                              z == kamer.z ||
-                              z == kamer.z + kamer.diepte - 1);
 
-                if (!isRand) continue; // Niet op rand? Skip!
-
-                // Check alle 4 richtingen voor muur plaatsing
-                CheckEnPlaatsKamerMuur(kamer, x, z, -1, 0, 90f);  // Links
-                CheckEnPlaatsKamerMuur(kamer, x, z, 1, 0, 90f);  // Rechts
-                CheckEnPlaatsKamerMuur(kamer, x, z, 0, -1, 0f);   // Achter
-                CheckEnPlaatsKamerMuur(kamer, x, z, 0, 1, 0f);   // Voor
-            }
-        }
-    }
     void CheckEnPlaatsKamerMuur(Kamer kamer, int x, int z, int dx, int dz, float rotatie)
     {
-        // De positie net buiten de kamer
         int muurX = x + dx;
         int muurZ = z + dz;
 
-        // Is de 'buren' positie buiten de kamer?
         bool isBuitenKamer = (muurX < kamer.x || muurX >= kamer.x + kamer.breedte ||
                               muurZ < kamer.z || muurZ >= kamer.z + kamer.diepte);
 
         if (!isBuitenKamer) return;
 
-        // Check of de HUIDIGE rand positie een gang is (Ingang)
         if (IsGangTile(x, z))
         {
-            // NIEUW: Plaats hier een deur i.p.v. niets!
             if (deurPrefab != null)
             {
                 PlaatsObjectOpRand(deurPrefab, x, z, dx, dz, rotatie, "Deur");
@@ -206,10 +379,9 @@ public class AutoDungeonGenerator : MonoBehaviour
             return;
         }
 
-        // Anders: Plaats een muur
         PlaatsObjectOpRand(muurPrefab, x, z, dx, dz, rotatie, "Muur_Kamer");
-
     }
+
     void PlaatsAlleGangMuren()
     {
         if (muurPrefab == null) return;
@@ -218,21 +390,19 @@ public class AutoDungeonGenerator : MonoBehaviour
         {
             foreach (Vector2Int tile in gang.tiles)
             {
-                // Check 4 richtingen rondom elke gang-tegel
-                CheckEnPlaatsGangMuur(tile.x, tile.y, -1, 0, 90f); // Links
-                CheckEnPlaatsGangMuur(tile.x, tile.y, 1, 0, 90f);  // Rechts
-                CheckEnPlaatsGangMuur(tile.x, tile.y, 0, -1, 0f);  // Onder
-                CheckEnPlaatsGangMuur(tile.x, tile.y, 0, 1, 0f);   // Boven
+                CheckEnPlaatsGangMuur(tile.x, tile.y, -1, 0, 90f);
+                CheckEnPlaatsGangMuur(tile.x, tile.y, 1, 0, 90f);
+                CheckEnPlaatsGangMuur(tile.x, tile.y, 0, -1, 0f);
+                CheckEnPlaatsGangMuur(tile.x, tile.y, 0, 1, 0f);
             }
         }
     }
+
     void CheckEnPlaatsGangMuur(int x, int z, int dx, int dz, float rotatie)
     {
         int buurX = x + dx;
         int buurZ = z + dz;
 
-        // We plaatsen alleen een gang-muur als de buur-tegel LEEG is.
-        // Dus: Geen kamer én Geen gang.
         bool isLeeg = !IsKamerTile(buurX, buurZ) && !IsGangTile(buurX, buurZ);
 
         if (isLeeg)
@@ -240,6 +410,8 @@ public class AutoDungeonGenerator : MonoBehaviour
             PlaatsObjectOpRand(muurPrefab, x, z, dx, dz, rotatie, "Muur_Gang");
         }
     }
+
+    // ORIGINELE OFFSET LOGICA BEHOUDEN
     void PlaatsObjectOpRand(GameObject prefab, int x, int z, int dx, int dz, float rotatie, string naamPrefix)
     {
         bool isLinks = dx == -1 && dz == 0;
@@ -265,6 +437,10 @@ public class AutoDungeonGenerator : MonoBehaviour
         obj.name = $"{naamPrefix}_{x}_{z}";
     }
 
+    // ══════════════════════════════════════════════════════════════
+    // HELPER METHODS
+    // ══════════════════════════════════════════════════════════════
+
     bool IsGangTile(int x, int z)
     {
         foreach (Gang gang in gangen)
@@ -276,6 +452,7 @@ public class AutoDungeonGenerator : MonoBehaviour
         }
         return false;
     }
+
     bool IsKamerTile(int x, int z)
     {
         foreach (Kamer kamer in kamers)
@@ -284,10 +461,12 @@ public class AutoDungeonGenerator : MonoBehaviour
         }
         return false;
     }
+
     Kamer ProbeeerKamerToevoegen(Kamer oudeKamer)
     {
         int[] richtingen = { 0, 1, 2, 3 };
-        // Shuffle (Fisher-Yates)
+
+        // Fisher-Yates shuffle
         for (int i = 0; i < richtingen.Length; i++)
         {
             int t = richtingen[i];
@@ -300,26 +479,46 @@ public class AutoDungeonGenerator : MonoBehaviour
         {
             int nieuwBreedte = Random.Range(minKamerGrootte, maxKamerGrootte);
             int nieuwDiepte = Random.Range(minKamerGrootte, maxKamerGrootte);
-            int gangLente = Random.Range(minGangLengte, maxGangLengte);
+            int gangLengte = Random.Range(minGangLengte, maxGangLengte);
 
             Kamer nieuweKamer = null;
 
             switch (richting)
             {
                 case 0: // Links
-                    nieuweKamer = new Kamer(oudeKamer.x - nieuwBreedte - gangLente, oudeKamer.z + Random.Range(-nieuwDiepte / 2, oudeKamer.diepte / 2), nieuwBreedte, nieuwDiepte); break;
+                    nieuweKamer = new Kamer(
+                        oudeKamer.x - nieuwBreedte - gangLengte,
+                        oudeKamer.z + Random.Range(-nieuwDiepte / 2, oudeKamer.diepte / 2),
+                        nieuwBreedte, nieuwDiepte);
+                    break;
                 case 1: // Rechts
-                    nieuweKamer = new Kamer(oudeKamer.x + oudeKamer.breedte + gangLente, oudeKamer.z + Random.Range(-nieuwDiepte / 2, oudeKamer.diepte / 2), nieuwBreedte, nieuwDiepte); break;
+                    nieuweKamer = new Kamer(
+                        oudeKamer.x + oudeKamer.breedte + gangLengte,
+                        oudeKamer.z + Random.Range(-nieuwDiepte / 2, oudeKamer.diepte / 2),
+                        nieuwBreedte, nieuwDiepte);
+                    break;
                 case 2: // Boven
-                    nieuweKamer = new Kamer(oudeKamer.x + Random.Range(-nieuwBreedte / 2, oudeKamer.breedte / 2), oudeKamer.z + oudeKamer.diepte + gangLente, nieuwBreedte, nieuwDiepte); break;
+                    nieuweKamer = new Kamer(
+                        oudeKamer.x + Random.Range(-nieuwBreedte / 2, oudeKamer.breedte / 2),
+                        oudeKamer.z + oudeKamer.diepte + gangLengte,
+                        nieuwBreedte, nieuwDiepte);
+                    break;
                 case 3: // Onder
-                    nieuweKamer = new Kamer(oudeKamer.x + Random.Range(-nieuwBreedte / 2, oudeKamer.breedte / 2), oudeKamer.z - nieuwDiepte - gangLente, nieuwBreedte, nieuwDiepte); break;
+                    nieuweKamer = new Kamer(
+                        oudeKamer.x + Random.Range(-nieuwBreedte / 2, oudeKamer.breedte / 2),
+                        oudeKamer.z - nieuwDiepte - gangLengte,
+                        nieuwBreedte, nieuwDiepte);
+                    break;
             }
 
             bool overlapt = false;
             foreach (Kamer bestaandeKamer in kamers)
             {
-                if (nieuweKamer.Overlapt(bestaandeKamer)) { overlapt = true; break; }
+                if (nieuweKamer.Overlapt(bestaandeKamer))
+                {
+                    overlapt = true;
+                    break;
+                }
             }
 
             int afstand = Mathf.Abs(nieuweKamer.x - oudeKamer.x) + Mathf.Abs(nieuweKamer.z - oudeKamer.z);
@@ -380,12 +579,63 @@ public class AutoDungeonGenerator : MonoBehaviour
         gangen.Add(verticaleGang);
     }
 
+    // ══════════════════════════════════════════════════════════════
+    // CLEANUP & UTILITY
+    // ══════════════════════════════════════════════════════════════
+
     [ContextMenu("Verwijder Dungeon")]
-    public void deleteDungeon()
+    public void VerwijderDungeon()
     {
         if (dungeonParent != null)
             DestroyImmediate(dungeonParent);
+
         kamers.Clear();
         gangen.Clear();
+        gespawndeEnemies.Clear();
+    }
+
+    [ContextMenu("Verwijder Alleen Enemies")]
+    public void VerwijderAlleenEnemies()
+    {
+        foreach (GameObject enemy in gespawndeEnemies)
+        {
+            if (enemy != null)
+                DestroyImmediate(enemy);
+        }
+        gespawndeEnemies.Clear();
+
+        foreach (Kamer kamer in kamers)
+        {
+            kamer.enemies.Clear();
+        }
+
+        Debug.Log("Alle enemies verwijderd!");
+    }
+
+    [ContextMenu("Respawn Enemies")]
+    public void RespawnEnemies()
+    {
+        VerwijderAlleenEnemies();
+        SpawnAlleEnemies();
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // PUBLIC GETTERS (handig voor andere scripts)
+    // ══════════════════════════════════════════════════════════════
+
+    public List<Kamer> GetKamers() => kamers;
+    public List<Gang> GetGangen() => gangen;
+    public List<GameObject> GetEnemies() => gespawndeEnemies;
+    public Kamer GetStartKamer() => kamers.Count > 0 ? kamers[0] : null;
+    public Kamer GetBossKamer() => kamers.Find(k => k.type == KamerType.Boss);
+
+    public Vector3 GetSpawnPoint()
+    {
+        Kamer startKamer = GetStartKamer();
+        if (startKamer != null)
+        {
+            return startKamer.CenterWorld(tileSize);
+        }
+        return Vector3.zero;
     }
 }
