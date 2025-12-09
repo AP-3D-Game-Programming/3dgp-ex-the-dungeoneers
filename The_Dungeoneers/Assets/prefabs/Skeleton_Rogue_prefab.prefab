@@ -73,9 +73,6 @@ PrefabInstance:
       addedObject: {fileID: 4553879219554337901}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7c41a38aba0c6cd4d9c9c209c037690c, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1125311138510824912}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 7c41a38aba0c6cd4d9c9c209c037690c, type: 3}
-      insertIndex: -1
       addedObject: {fileID: 1921559623062113759}
   m_SourcePrefab: {fileID: 100100000, guid: 7c41a38aba0c6cd4d9c9c209c037690c, type: 3}
 --- !u!1 &5602272405773716177 stripped
@@ -98,26 +95,7 @@ MonoBehaviour:
   maxHealth: 50
   currentHealth: 50
   animator: {fileID: 0}
-  destroyOnDeath: 0
---- !u!114 &1125311138510824912
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5602272405773716177}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26d02223e5fe6234f8d3b2c44973095c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  attackDamage: 10
-  attackRange: 1
-  attackCooldown: 0.6
-  enemyLayer:
-    serializedVersion: 2
-    m_Bits: 0
-  animator: {fileID: 0}
+  destroyOnDeath: 1
 --- !u!136 &1921559623062113759
 CapsuleCollider:
   m_ObjectHideFlags: 0
