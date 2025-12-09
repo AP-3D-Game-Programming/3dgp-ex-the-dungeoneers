@@ -48,11 +48,25 @@ MonoBehaviour:
   vloerPrefab: {fileID: 795165706614100933, guid: c863f656782d099438e2f1ba789301c8, type: 3}
   muurPrefab: {fileID: 3591644860445115680, guid: a55e8b944b49e774899ecb13192840e5, type: 3}
   deurPrefab: {fileID: 2287353120183323330, guid: f866648d31fd9494093daef232970acf, type: 3}
+  spelerPrefab: {fileID: 0}
   enemyTypes:
-  - naam: skeleton
-    prefab: {fileID: 919132149155446097, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
+  - naam: Mage Skeleton
+    prefab: {fileID: 4699406807211549229, guid: 50e856f530388fd45a1c5571e2a1efc3, type: 3}
     spawnGewicht: 10
     minimumKamerGrootte: 0
+  - naam: Minion Skeleton
+    prefab: {fileID: 4155970520181617617, guid: aee368645d689274aae4ff272d0280ef, type: 3}
+    spawnGewicht: 10
+    minimumKamerGrootte: 0
+  - naam: Rogue Skeleton
+    prefab: {fileID: 5602272405773716177, guid: 0c6edd836dce8b24fa8b49f24452a9b0, type: 3}
+    spawnGewicht: 10
+    minimumKamerGrootte: 0
+  - naam: Warrior Skeleton
+    prefab: {fileID: 6029846243742397199, guid: 4c1628db28bce174686ee7458d81d611, type: 3}
+    spawnGewicht: 10
+    minimumKamerGrootte: 0
+  chestPrefab: {fileID: 0}
   aantalKamers: 5
   minKamerGrootte: 5
   maxKamerGrootte: 10
@@ -63,7 +77,11 @@ MonoBehaviour:
   minEnemiesPerKamer: 1
   maxEnemiesPerKamer: 5
   enemySpawnMargin: 1
+  treasureKans: 0.1
+  safeKans: 0.05
   gangKans: 0.5
+  chestSpawnKans: 0.3
+  maxChestsPerKamer: 2
 --- !u!54 &6527251355225085145
 Rigidbody:
   m_ObjectHideFlags: 0
