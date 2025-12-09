@@ -300,7 +300,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
   target: {fileID: 0}
   smoothSpeed: 0.125
-  offset: {x: 10, y: 9, z: -10}
+  offset: {x: 0, y: 9, z: -10}
 --- !u!114 &359066070
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -469,101 +469,67 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!1 &969714649
-GameObject:
+--- !u!1001 &5053551070225125923
+PrefabInstance:
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 969714651}
-  - component: {fileID: 969714650}
-  - component: {fileID: 969714652}
-  m_Layer: 0
-  m_Name: dungeonGenerator
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &969714650
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969714649}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5b6c408b1781bac4db816b13d29aa87f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::AutoDungeonGenerator
-  vloerPrefab: {fileID: 795165706614100933, guid: c863f656782d099438e2f1ba789301c8, type: 3}
-  muurPrefab: {fileID: 3591644860445115680, guid: a55e8b944b49e774899ecb13192840e5, type: 3}
-  deurPrefab: {fileID: 2287353120183323330, guid: f866648d31fd9494093daef232970acf, type: 3}
-  enemyTypes:
-  - naam: skeleton
-    prefab: {fileID: 919132149155446097, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
-    spawnGewicht: 10
-    minimumKamerGrootte: 0
-  aantalKamers: 5
-  minKamerGrootte: 5
-  maxKamerGrootte: 10
-  minGangLengte: 5
-  maxGangLengte: 10
-  spawnsEnemiesInEersteKamer: 0
-  kamerEnemySpawnKans: 0.8
-  minEnemiesPerKamer: 1
-  maxEnemiesPerKamer: 5
-  enemySpawnMargin: 1
-  gangKans: 0.5
---- !u!4 &969714651
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969714649}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 417.9589, y: 104.93441, z: 448.3174}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!54 &969714652
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 969714649}
-  serializedVersion: 5
-  m_Mass: 1
-  m_LinearDamping: 0
-  m_AngularDamping: 0.05
-  m_CenterOfMass: {x: 0, y: 0, z: 0}
-  m_InertiaTensor: {x: 1, y: 1, z: 1}
-  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ImplicitCom: 1
-  m_ImplicitTensor: 1
-  m_UseGravity: 0
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 1
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 417.9589
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 104.93441
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 448.3174
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8082504160819415002, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8667299559674530530, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: m_Name
+      value: dungeonGenerator
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 359066067}
   - {fileID: 928923931}
-  - {fileID: 969714651}
+  - {fileID: 5053551070225125923}
