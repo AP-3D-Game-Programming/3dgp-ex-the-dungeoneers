@@ -8,8 +8,15 @@ public class AutoDungeonGenerator : MonoBehaviour
     public GameObject muurPrefab;
     public GameObject deurPrefab;
 
+    [Header("Player")]
+    public GameObject spelerPrefab;  // De speler prefab (bijvoorbeeld een mannetje)
+    private GameObject spelerInstance;  // Referentie naar de huidige speler instantie
+
     [Header("Prefabs - Enemies")]
     public List<EnemySpawnInfo> enemyTypes = new List<EnemySpawnInfo>();
+
+    [Header("Prefabs - Chests")]
+    public GameObject chestPrefab;   // Schatkist prefab
 
     [Header("Dungeon Settings")]
     public int aantalKamers = 5;
@@ -24,17 +31,47 @@ public class AutoDungeonGenerator : MonoBehaviour
     public float kamerEnemySpawnKans = 0.8f;
     public int minEnemiesPerKamer = 1;
     public int maxEnemiesPerKamer = 5;
-    public float enemySpawnMargin = 1;  // Afstand van muren
+    public float enemySpawnMargin = 1f;  // Afstand van muren
+
+    [Header("Room Type Chances")]
+    [Range(0f, 1f)]
+    public float treasureKans = 0.1f;   // Kans op een treasure-kamer (10% standaard)
+
+    [Range(0f, 1f)]
+    public float safeKans = 0.05f;      // Kans op een safe-kamer (5% standaard)
 
     [Range(0f, 1f)]
     public float gangKans = 0.5f;
 
+    [Header("Chest Settings")]
+    [Range(0f, 1f)]
+    public float chestSpawnKans = 0.3f;  // Kans dat een normale kamer een chest krijgt
+    public int maxChestsPerKamer = 2;    // Maximaal aantal chests per kamer
+
     private float tileSize = 4f;
     private GameObject dungeonParent;
     private GameObject enemiesParent;
+    private GameObject chestsParent;
     private List<Kamer> kamers = new List<Kamer>();
     private List<Gang> gangen = new List<Gang>();
     private List<GameObject> gespawndeEnemies = new List<GameObject>();
+    private List<GameObject> gespawndeChests = new List<GameObject>();
+
+    // ══════════════════════════════════════════════════════════════
+    // PLAY
+    // ══════════════════════════════════════════════════════════════
+
+    void OnEnable()
+    {
+        // Automatisch de dungeon genereren bij start van het spel (Play-knop in Unity)
+        GenereerDungeon();
+    }
+
+    void OnDisable()
+    {
+        // Automatisch de dungeon verwijderen als het spel stopt (Stop-knop in Unity)
+        VerwijderDungeon();
+    }
 
     // ══════════════════════════════════════════════════════════════
     // CLASSES
@@ -57,6 +94,7 @@ public class AutoDungeonGenerator : MonoBehaviour
         public int breedte, diepte;
         public KamerType type = KamerType.Normaal;
         public List<GameObject> enemies = new List<GameObject>();
+        public List<GameObject> chests = new List<GameObject>();
 
         // Handige properties
         public int Oppervlakte => breedte * diepte;
@@ -158,7 +196,9 @@ public class AutoDungeonGenerator : MonoBehaviour
         // Maak parent objecten
         dungeonParent = new GameObject("Dungeon");
         enemiesParent = new GameObject("Enemies");
+        chestsParent = new GameObject("Chests");
         enemiesParent.transform.parent = dungeonParent.transform;
+        chestsParent.transform.parent = dungeonParent.transform;
 
         // 1. Genereer kamers
         GenereerAlleKamers();
@@ -173,7 +213,13 @@ public class AutoDungeonGenerator : MonoBehaviour
         // 4. Spawn enemies
         SpawnAlleEnemies();
 
-        Debug.Log($"Dungeon klaar: {kamers.Count} kamers, {gangen.Count} gangen, {gespawndeEnemies.Count} enemies");
+        // 5. Spawn chests
+        SpawnAlleChests();
+
+        // 6. Spawn speler in de startkamer
+        SpawnSpeler();
+
+        Debug.Log($"Dungeon klaar: {kamers.Count} kamers, {gangen.Count} gangen, {gespawndeEnemies.Count} enemies, {gespawndeChests.Count} chests");
     }
 
     void GenereerAlleKamers()
@@ -212,20 +258,70 @@ public class AutoDungeonGenerator : MonoBehaviour
     void WijsKamerTypesToe()
     {
         // Eerste kamer is al Start
-        // Laatste kamer kan Boss zijn
+        // De laatste kamer wordt een Boss-kamer (als er voldoende kamers zijn)
         if (kamers.Count > 2)
         {
             kamers[kamers.Count - 1].type = KamerType.Boss;
         }
 
-        // Eventueel: random treasure kamers
+        // Loop door alle tussenliggende kamers (behalve start en boss)
         for (int i = 1; i < kamers.Count - 1; i++)
         {
-            if (Random.value < 0.1f)  // 10% kans
+            // Eerst kijken of dit een Treasure-kamer wordt
+            if (Random.value < treasureKans)
             {
                 kamers[i].type = KamerType.Treasure;
+                continue;  // Als treasure, verder niets doen
             }
+
+            // Dan kijken of dit een Safe-kamer wordt
+            if (Random.value < safeKans)
+            {
+                kamers[i].type = KamerType.Safe;
+                continue;  // Als safe, verder niets doen
+            }
+
+            // Anders blijft het een normale kamer
         }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // SPELERS SPAWNING
+    // ══════════════════════════════════════════════════════════════
+
+    void SpawnSpeler()
+    {
+        if (spelerPrefab == null)
+        {
+            Debug.LogWarning("Geen speler prefab ingesteld!");
+            return;
+        }
+
+        // Zoek de startkamer
+        Kamer startKamer = GetStartKamer();
+        if (startKamer == null)
+        {
+            Debug.LogWarning("Geen startkamer gevonden!");
+            return;
+        }
+
+        // Bepaal de spawnpositie in het midden van de startkamer
+        Vector3 spawnPositie = startKamer.CenterWorld(tileSize);
+
+        // Als er al een speler bestaat (bij hergenereren), verwijder deze eerst
+        if (spelerInstance != null)
+        {
+            DestroyImmediate(spelerInstance);
+        }
+
+        // Instantiate de speler op de spawnpositie
+        spelerInstance = Instantiate(spelerPrefab, spawnPositie, Quaternion.identity);
+
+        // Optioneel: de speler onder de dungeon parent plaatsen
+        spelerInstance.name = "Speler";
+        spelerInstance.transform.parent = dungeonParent.transform;
+
+        Debug.Log("Speler gespawned in de startkamer.");
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -248,9 +344,13 @@ public class AutoDungeonGenerator : MonoBehaviour
             if (i == 0 && !spawnsEnemiesInEersteKamer)
                 continue;
 
-            // Skip safe kamers
+            // Skip safe kamers en start kamers
             if (kamer.type == KamerType.Safe || kamer.type == KamerType.Start)
                 continue;
+
+            // (Optioneel: als je treasure kamers geen vijanden wilt geven, voeg hier logica toe)
+            // if (kamer.type == KamerType.Treasure)
+            //     continue;
 
             // Check spawn kans
             if (Random.value > kamerEnemySpawnKans)
@@ -333,7 +433,56 @@ public class AutoDungeonGenerator : MonoBehaviour
     }
 
     // ══════════════════════════════════════════════════════════════
-    // MUREN EN VLOEREN (Origineel behouden)
+    // CHEST SPAWNING
+    // ══════════════════════════════════════════════════════════════
+
+    void SpawnAlleChests()
+    {
+        if (chestPrefab == null)
+        {
+            Debug.LogWarning("Geen chest prefab ingesteld!");
+            return;
+        }
+
+        foreach (Kamer kamer in kamers)
+        {
+            // Skip start- en safe kamers voor chests
+            if (kamer.type == KamerType.Start || kamer.type == KamerType.Safe)
+                continue;
+
+            // Voor treasure kamers: garandeer minstens 1 chest
+            int aantalChests = 0;
+
+            if (kamer.type == KamerType.Treasure)
+            {
+                aantalChests = Random.Range(1, maxChestsPerKamer + 1);
+            }
+            else
+            {
+                // Voor andere kamers: gebruik de algemene kans
+                if (Random.value < chestSpawnKans)
+                {
+                    aantalChests = Random.Range(1, maxChestsPerKamer + 1);
+                }
+            }
+
+            // Plaats de chests
+            for (int i = 0; i < aantalChests; i++)
+            {
+                Vector3 spawnPos = kamer.GetRandomPositie(tileSize, margin: 1f);
+
+                GameObject chest = Instantiate(chestPrefab, spawnPos, Quaternion.identity);
+                chest.transform.parent = chestsParent.transform;
+                chest.name = $"Chest_{kamer.CenterX}_{kamer.CenterZ}_{i}";
+
+                kamer.chests.Add(chest);
+                gespawndeChests.Add(chest);
+            }
+        }
+    }
+
+    // ══════════════════════════════════════════════════════════════
+    // MUREN EN VLOEREN
     // ══════════════════════════════════════════════════════════════
 
     void PlaatsAlleKamerMuren()
@@ -411,14 +560,12 @@ public class AutoDungeonGenerator : MonoBehaviour
         }
     }
 
-    // ORIGINELE OFFSET LOGICA BEHOUDEN
     void PlaatsObjectOpRand(GameObject prefab, int x, int z, int dx, int dz, float rotatie, string naamPrefix)
     {
         bool isLinks = dx == -1 && dz == 0;
         bool isBoven = dx == 0 && dz == 1;
         Vector3 pos;
 
-        // Jouw originele positie logica:
         if (isBoven)
         {
             pos = new Vector3((x + dx) * tileSize, 0, ((z + dz) * tileSize) - tileSize);
@@ -466,7 +613,7 @@ public class AutoDungeonGenerator : MonoBehaviour
     {
         int[] richtingen = { 0, 1, 2, 3 };
 
-        // Fisher-Yates shuffle
+        // Fisher-Yates shuffle van de richtingen (willekeurige volgorde proberen)
         for (int i = 0; i < richtingen.Length; i++)
         {
             int t = richtingen[i];
@@ -550,6 +697,7 @@ public class AutoDungeonGenerator : MonoBehaviour
         int midden2X = kamer2.x + kamer2.breedte / 2;
         int midden2Z = kamer2.z + kamer2.diepte / 2;
 
+        // Horizontale gang
         int startX = Mathf.Min(midden1X, midden2X);
         int eindX = Mathf.Max(midden1X, midden2X);
 
@@ -564,6 +712,7 @@ public class AutoDungeonGenerator : MonoBehaviour
         }
         gangen.Add(horizontaleGang);
 
+        // Verticale gang
         int startZ = Mathf.Min(midden1Z, midden2Z);
         int eindZ = Mathf.Max(midden1Z, midden2Z);
 
@@ -592,6 +741,14 @@ public class AutoDungeonGenerator : MonoBehaviour
         kamers.Clear();
         gangen.Clear();
         gespawndeEnemies.Clear();
+        gespawndeChests.Clear();
+
+        // Speler verwijderen als die bestaat
+        if (spelerInstance != null)
+        {
+            DestroyImmediate(spelerInstance);
+            spelerInstance = null;
+        }
     }
 
     [ContextMenu("Verwijder Alleen Enemies")]
@@ -617,6 +774,33 @@ public class AutoDungeonGenerator : MonoBehaviour
     {
         VerwijderAlleenEnemies();
         SpawnAlleEnemies();
+        Debug.Log("Enemies opnieuw gespawned!");
+    }
+
+    [ContextMenu("Verwijder Alleen Chests")]
+    public void VerwijderAlleenChests()
+    {
+        foreach (GameObject chest in gespawndeChests)
+        {
+            if (chest != null)
+                DestroyImmediate(chest);
+        }
+        gespawndeChests.Clear();
+
+        foreach (Kamer kamer in kamers)
+        {
+            kamer.chests.Clear();
+        }
+
+        Debug.Log("Alle chests verwijderd!");
+    }
+
+    [ContextMenu("Respawn Chests")]
+    public void RespawnChests()
+    {
+        VerwijderAlleenChests();
+        SpawnAlleChests();
+        Debug.Log("Chests opnieuw gespawned!");
     }
 
     // ══════════════════════════════════════════════════════════════
@@ -626,6 +810,8 @@ public class AutoDungeonGenerator : MonoBehaviour
     public List<Kamer> GetKamers() => kamers;
     public List<Gang> GetGangen() => gangen;
     public List<GameObject> GetEnemies() => gespawndeEnemies;
+    public List<GameObject> GetChests() => gespawndeChests;
+
     public Kamer GetStartKamer() => kamers.Count > 0 ? kamers[0] : null;
     public Kamer GetBossKamer() => kamers.Find(k => k.type == KamerType.Boss);
 
