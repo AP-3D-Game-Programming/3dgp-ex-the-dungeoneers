@@ -20,7 +20,7 @@ public class Health : MonoBehaviour, IDamageable
 
         if (animator != null)
         {
-            animator.SetTrigger("Hit"); // maak een "Hit" trigger in je animator als je wilt
+            animator.SetTrigger("Hit");
         }
 
         if (currentHealth <= 0)
@@ -34,7 +34,6 @@ public class Health : MonoBehaviour, IDamageable
         if (animator != null)
         {
             animator.SetTrigger("Die");
-            // je kunt object na animatie verwijderen via animation event of coroutine
         }
         if (destroyOnDeath)
         {

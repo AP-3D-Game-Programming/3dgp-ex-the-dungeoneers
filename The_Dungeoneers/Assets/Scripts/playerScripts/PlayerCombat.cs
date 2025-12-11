@@ -27,8 +27,6 @@ public class PlayerCombat : MonoBehaviour
     {
         if (Time.time - lastAttackTime < attackCooldown) return;
         lastAttackTime = Time.time;
-        animator.SetTrigger("Attack");
-        // damage wordt op het juiste animatieframe toegepast via Animation Event -> OnAttackHit()
     }
 
     // Roep deze functie vanuit een Animation Event op het moment van impact in de attack animatie

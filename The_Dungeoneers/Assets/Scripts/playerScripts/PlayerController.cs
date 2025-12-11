@@ -16,6 +16,10 @@ public class PlayerMovement : MonoBehaviour
     // Checken of we op de grond staan
     private bool isGrounded;
     private bool jumpRequest = false;
+    
+    public bool IsGrounded => isGrounded;
+    public bool JumpRequested => jumpRequest;
+
 
     void Start()
     {
@@ -91,7 +95,6 @@ public class PlayerMovement : MonoBehaviour
             // ANIMATIE: Springen starten
             if (animator != null)
             {
-                animator.SetTrigger("Jump");
                 animator.SetBool("IsGrounded", false);
             }
         }
