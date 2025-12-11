@@ -38,21 +38,11 @@ public class PlayerPickup : MonoBehaviour
         {
             if (heldObject == null)
             {
-                // animation
-                if (playerAnimator != null)
-                {
-                    // animatie trigger bij pickup
-                    playerAnimator.SetTrigger("IsPickingUp");
-                }
-
                 PickupNearest();
-
             }
-                
             else
             {
                 DropHeld();
-
             }
 
         }
@@ -61,7 +51,6 @@ public class PlayerPickup : MonoBehaviour
         if (Input.GetKeyDown(throwKey) && heldObject != null)
         {
             ThrowHeld();
-
         }
 
                 
