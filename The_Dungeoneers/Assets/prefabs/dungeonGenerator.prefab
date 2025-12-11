@@ -48,7 +48,7 @@ MonoBehaviour:
   vloerPrefab: {fileID: 795165706614100933, guid: c863f656782d099438e2f1ba789301c8, type: 3}
   muurPrefab: {fileID: 3591644860445115680, guid: a55e8b944b49e774899ecb13192840e5, type: 3}
   deurPrefab: {fileID: 2287353120183323330, guid: f866648d31fd9494093daef232970acf, type: 3}
-  spelerPrefab: {fileID: 0}
+  spelerPrefab: {fileID: -2796492743467506607, guid: f3f485ded8b33db43b41ca2cdf06dc26, type: 3}
   enemyTypes:
   - naam: Mage Skeleton
     prefab: {fileID: 4699406807211549229, guid: 50e856f530388fd45a1c5571e2a1efc3, type: 3}
