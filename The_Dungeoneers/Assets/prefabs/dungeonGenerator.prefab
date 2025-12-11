@@ -48,11 +48,13 @@ MonoBehaviour:
   vloerPrefab: {fileID: 795165706614100933, guid: c863f656782d099438e2f1ba789301c8, type: 3}
   muurPrefab: {fileID: 3591644860445115680, guid: a55e8b944b49e774899ecb13192840e5, type: 3}
   deurPrefab: {fileID: 2287353120183323330, guid: f866648d31fd9494093daef232970acf, type: 3}
+  spelerPrefab: {fileID: 1154528752973409210, guid: 5c33ef01718f580408444b50eace3545, type: 3}
   enemyTypes:
   - naam: skeleton
     prefab: {fileID: 919132149155446097, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
     spawnGewicht: 10
     minimumKamerGrootte: 0
+  chestPrefab: {fileID: 0}
   aantalKamers: 5
   minKamerGrootte: 5
   maxKamerGrootte: 10
@@ -63,7 +65,11 @@ MonoBehaviour:
   minEnemiesPerKamer: 1
   maxEnemiesPerKamer: 5
   enemySpawnMargin: 1
+  treasureKans: 0.1
+  safeKans: 0.05
   gangKans: 0.5
+  chestSpawnKans: 0.3
+  maxChestsPerKamer: 2
 --- !u!54 &6527251355225085145
 Rigidbody:
   m_ObjectHideFlags: 0
