@@ -121,7 +121,11 @@ NavMeshSettings:
   m_NavMeshData: {fileID: 0}
 --- !u!114 &506193652 stripped
 MonoBehaviour:
+<<<<<<< HEAD
   m_CorrespondingSourceObject: {fileID: 2282568491142209358, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+=======
+  m_CorrespondingSourceObject: {fileID: 4647554600499192322, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+>>>>>>> 5cdd8bb36bbe42e4fa175745cf4281a3236d61e7
   m_PrefabInstance: {fileID: 1781862969}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 0}
