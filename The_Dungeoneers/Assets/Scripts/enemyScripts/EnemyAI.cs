@@ -14,6 +14,7 @@ public class EnemyAI : MonoBehaviour
     private EnemyCombat combat;
     private Health health;
 
+
     void Awake()
     {
         agent = GetComponent<NavMeshAgent>();
