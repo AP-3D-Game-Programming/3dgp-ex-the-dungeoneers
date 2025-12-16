@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8082504160819415002}
   - component: {fileID: 2506644219281323715}
   - component: {fileID: 6527251355225085145}
+  - component: {fileID: 2282568491142209358}
   m_Layer: 0
   m_Name: dungeonGenerator
   m_TagString: Untagged
@@ -54,8 +55,8 @@ MonoBehaviour:
     prefab: {fileID: 4699406807211549229, guid: 50e856f530388fd45a1c5571e2a1efc3, type: 3}
     spawnGewicht: 10
     minimumKamerGrootte: 0
-  chestPrefab: {fileID: 0}
-  aantalKamers: 5
+  chestPrefab: {fileID: 919132149155446097, guid: b7a566624b5fe1943877f541d31bd2f3, type: 3}
+  aantalKamers: 20
   minKamerGrootte: 5
   maxKamerGrootte: 10
   minGangLengte: 5
@@ -66,10 +67,11 @@ MonoBehaviour:
   maxEnemiesPerKamer: 5
   enemySpawnMargin: 1
   treasureKans: 0.1
-  safeKans: 0.05
+  safeKans: 0
   gangKans: 0.5
   chestSpawnKans: 0.3
   maxChestsPerKamer: 2
+  navMeshSurface: {fileID: 2282568491142209358}
 --- !u!54 &6527251355225085145
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -97,3 +99,32 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &2282568491142209358
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8667299559674530530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 03e71098b69cb6240a571223568ab7db, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshComponents::UnityEngine.AI.NavMeshSurface
+  m_AgentTypeID: 0
+  m_CollectObjects: 0
+  m_Size: {x: 10, y: 10, z: 10}
+  m_Center: {x: 0, y: 2, z: 0}
+  m_LayerMask:
+    serializedVersion: 2
+    m_Bits: 192
+  m_UseGeometry: 0
+  m_DefaultArea: 0
+  m_IgnoreNavMeshAgent: 1
+  m_IgnoreNavMeshObstacle: 1
+  m_OverrideTileSize: 0
+  m_TileSize: 256
+  m_OverrideVoxelSize: 0
+  m_VoxelSize: 0.16666667
+  m_BuildHeightMesh: 0
+  m_NavMeshData: {fileID: 0}
