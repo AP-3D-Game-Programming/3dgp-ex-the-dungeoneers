@@ -55,7 +55,7 @@ MonoBehaviour:
     prefab: {fileID: 4699406807211549229, guid: 50e856f530388fd45a1c5571e2a1efc3, type: 3}
     spawnGewicht: 10
     minimumKamerGrootte: 0
-  chestPrefab: {fileID: 919132149155446097, guid: b7a566624b5fe1943877f541d31bd2f3, type: 3}
+  chestPrefab: {fileID: -2796492743467506607, guid: 6672325010bc8df41974ee2d92324c92, type: 3}
   aantalKamers: 20
   minKamerGrootte: 5
   maxKamerGrootte: 10

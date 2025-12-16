@@ -67,6 +67,7 @@ public class AutoDungeonGenerator : MonoBehaviour
 
     void Start()
     {
+        Debug.Log("AutoDungeonGenerator Start() aangeroepen in build.");
         GenereerDungeon();
     }
     void OnEnable()

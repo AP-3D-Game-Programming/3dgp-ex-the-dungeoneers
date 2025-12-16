@@ -270,6 +270,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2506644219281323715, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: chestPrefab
+      value: 
+      objectReference: {fileID: -2796492743467506607, guid: 6672325010bc8df41974ee2d92324c92, type: 3}
+    - target: {fileID: 2506644219281323715, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
       propertyPath: navMeshSurface
       value: 
       objectReference: {fileID: 506193652}
