@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8082504160819415002}
   - component: {fileID: 2506644219281323715}
   - component: {fileID: 6527251355225085145}
-  - component: {fileID: 4647554600499192322}
+  - component: {fileID: 2282568491142209358}
   m_Layer: 0
   m_Name: dungeonGenerator
   m_TagString: Untagged
@@ -71,7 +71,7 @@ MonoBehaviour:
   gangKans: 0.5
   chestSpawnKans: 0.3
   maxChestsPerKamer: 2
-  navMeshSurface: {fileID: 4647554600499192322}
+  navMeshSurface: {fileID: 2282568491142209358}
 --- !u!54 &6527251355225085145
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -99,7 +99,7 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 1
---- !u!114 &4647554600499192322
+--- !u!114 &2282568491142209358
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
