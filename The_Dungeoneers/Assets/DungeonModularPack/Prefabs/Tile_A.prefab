@@ -57,8 +57,16 @@ PrefabInstance:
       value: Tile_A
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 56351ca12b627de41b48b41f8ba47ebc, type: 3}
+      propertyPath: m_Layer
+      value: 7
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 56351ca12b627de41b48b41f8ba47ebc, type: 3}
       propertyPath: m_TagString
       value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 56351ca12b627de41b48b41f8ba47ebc, type: 3}
+      propertyPath: m_StaticEditorFlags
+      value: 2147483647
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -67,6 +75,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56351ca12b627de41b48b41f8ba47ebc, type: 3}
       insertIndex: -1
       addedObject: {fileID: 3613569914195930269}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 56351ca12b627de41b48b41f8ba47ebc, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -101432437823584038}
   m_SourcePrefab: {fileID: 100100000, guid: 56351ca12b627de41b48b41f8ba47ebc, type: 3}
 --- !u!1 &795165706614100933 stripped
 GameObject:
@@ -94,3 +105,19 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 4, y: 0, z: 4}
   m_Center: {x: 2, y: 0, z: -2}
+--- !u!114 &-101432437823584038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 795165706614100933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 97a964f8b9051f4429e843a368ee35bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: NavMeshComponents::UnityEngine.AI.NavMeshModifier
+  m_OverrideArea: 1
+  m_Area: 0
+  m_IgnoreFromBuild: 0
+  m_AffectedAgents: ffffffff

@@ -998,15 +998,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5212149567cc04d45adec61b9da4d119, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
-  aggroRange: 10
-  loseRange: 14
+  aggroRange: 20
+  attackRange: 0.9
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  attackRange: 0.9
-  combat: {fileID: 0}
-  attackOrigin: {fileID: 0}
-  animator: {fileID: 0}
 --- !u!114 &-7943684892336004420
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1019,14 +1015,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16b976d1ae93b048bac4ab9d4cc8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
-  attackDamage: 10
-  attackCooldown: 1
+  damage: 15
+  cooldown: 1
   hitRadius: 1.6
-  hitCenter: {fileID: 2216313274228645272}
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
-  animator: {fileID: 0}
 --- !u!95 &7171642172953034782
 Animator:
   serializedVersion: 7
