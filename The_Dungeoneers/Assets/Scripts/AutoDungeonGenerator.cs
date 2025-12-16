@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UnityEngine.AI;
 using System.Collections.Generic;
 
 public class AutoDungeonGenerator : MonoBehaviour
@@ -47,6 +48,9 @@ public class AutoDungeonGenerator : MonoBehaviour
     [Range(0f, 1f)]
     public float chestSpawnKans = 0.3f;  // Kans dat een normale kamer een chest krijgt
     public int maxChestsPerKamer = 2;    // Maximaal aantal chests per kamer
+
+    [Header("NavMesh Surface")]
+    public NavMeshSurface navMeshSurface;  // Referentie naar het NavMeshSurface-component
 
     private float tileSize = 4f;
     private GameObject dungeonParent;
@@ -219,6 +223,8 @@ public class AutoDungeonGenerator : MonoBehaviour
         // 6. Spawn speler in de startkamer
         SpawnSpeler();
 
+        // 7. NavMesh opnieuw bouwen
+        UpdateNavMesh();
         Debug.Log($"Dungeon klaar: {kamers.Count} kamers, {gangen.Count} gangen, {gespawndeEnemies.Count} enemies, {gespawndeChests.Count} chests");
     }
 
@@ -728,6 +734,21 @@ public class AutoDungeonGenerator : MonoBehaviour
         gangen.Add(verticaleGang);
     }
 
+    // ══════════════════════════════════════════════════════════════
+    // GEN NAVMESH
+    // ══════════════════════════════════════════════════════════════
+    void UpdateNavMesh()
+    {
+        if (navMeshSurface != null)
+        {
+            navMeshSurface.BuildNavMesh();
+            Debug.Log("NavMesh opnieuw gebakken.");
+        }
+        else
+        {
+            Debug.LogWarning("NavMeshSurface is niet ingesteld! NavMesh kon niet worden gebakken.");
+        }
+    }
     // ══════════════════════════════════════════════════════════════
     // CLEANUP & UTILITY
     // ══════════════════════════════════════════════════════════════
