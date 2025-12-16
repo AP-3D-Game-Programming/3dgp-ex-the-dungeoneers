@@ -65,6 +65,10 @@ public class AutoDungeonGenerator : MonoBehaviour
     // PLAY
     // ══════════════════════════════════════════════════════════════
 
+    void Start()
+    {
+        GenerateDungeon();
+    }
     void OnEnable()
     {
         // Automatisch de dungeon genereren bij start van het spel (Play-knop in Unity)
