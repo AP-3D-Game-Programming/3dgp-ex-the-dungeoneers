@@ -67,7 +67,7 @@ public class AutoDungeonGenerator : MonoBehaviour
 
     void Start()
     {
-        GenerateDungeon();
+        GenereerDungeon();
     }
     void OnEnable()
     {

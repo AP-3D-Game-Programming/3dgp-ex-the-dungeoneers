@@ -119,8 +119,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
-<<<<<<< HEAD
-=======
 --- !u!1 &359066063
 GameObject:
   m_ObjectHideFlags: 0
@@ -316,7 +314,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraTransparancy
   player: {fileID: 1967621568205172992, guid: 5c33ef01718f580408444b50eace3545, type: 3}
->>>>>>> 41be6256ecc70a2cbe7f1876bc03ac4184e71384
 --- !u!1 &928923928
 GameObject:
   m_ObjectHideFlags: 0
