@@ -119,40 +119,17 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &506193651 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8667299559674530530, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+--- !u!114 &506193652 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4647554600499192322, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
   m_PrefabInstance: {fileID: 1781862969}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &506193652
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 506193651}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 03e71098b69cb6240a571223568ab7db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: NavMeshComponents::UnityEngine.AI.NavMeshSurface
-  m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
-  m_LayerMask:
-    serializedVersion: 2
-    m_Bits: 192
-  m_UseGeometry: 0
-  m_DefaultArea: 0
-  m_IgnoreNavMeshAgent: 1
-  m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
-  m_OverrideVoxelSize: 0
-  m_VoxelSize: 0.16666667
-  m_BuildHeightMesh: 0
-  m_NavMeshData: {fileID: 0}
 --- !u!1 &1389866210
 GameObject:
   m_ObjectHideFlags: 0
@@ -351,10 +328,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 8667299559674530530, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 506193652}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
 --- !u!1001 &1791374215
 PrefabInstance:
