@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 2216789508888050727}
   - component: {fileID: 4626013582583042522}
   - component: {fileID: 8740820486363536993}
-  - component: {fileID: 3491582791631224729}
   m_Layer: 0
   m_Name: Camera
   m_TagString: Untagged
@@ -182,16 +181,6 @@ MonoBehaviour:
   target: {fileID: 0}
   smoothSpeed: 0.125
   offset: {x: 0, y: 9, z: -10}
---- !u!114 &3491582791631224729
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4022117395261136774}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e24706a9394d68345b31459cb50e6bb0, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::CameraTransparancy
-  player: {fileID: 0}
+  obstacleLayer:
+    serializedVersion: 2
+    m_Bits: 64
