@@ -3,39 +3,48 @@ using System.Collections.Generic;
 
 public class PlayerPickup : MonoBehaviour
 {
+    public bool HasNearbyObject => nearbyObjects.Count > 0;
+
     [Header("Setup")]
-    public Transform holdPoint;           // Waar het object vastgehouden wordt
-    public KeyCode pickupKey = KeyCode.E; // Toets om op te pakken/los te laten
-    public KeyCode throwKey = KeyCode.Mouse0; // Toets om te gooien (linkermuisknop)
-    public bool isCarrying = false; //voor sprint
+    public Transform holdPoint;                 // Punt waar object vastgehouden wordt
+    public KeyCode pickupKey = KeyCode.E;       // Oppakken / neerleggen
+    public KeyCode throwKey = KeyCode.Mouse0;   // Gooien
+    public bool isCarrying = false;              // Voor sprint / animaties
 
     [Header("Throw Settings")]
-    public float throwForce = 10f;        // Kracht bij gooien
+    public float throwForce = 10f;
 
-    private GameObject heldObject = null;
-    private Rigidbody heldRb = null;
+    private GameObject heldObject;
+    private Rigidbody heldRb;
     private HashSet<GameObject> nearbyObjects = new HashSet<GameObject>();
 
-    // animator 
+    // Animator
     private Animator playerAnimator;
 
-    // start functie (voor animations)
     void Start()
     {
-        // Haal de Animator-component op van de GameObject (Player)
+        // Animator ophalen van de Player
         playerAnimator = GetComponent<Animator>();
 
         if (playerAnimator == null)
         {
-            Debug.LogError("Animator component niet gevonden op de speler voor Pick-up animatie! Zorg dat de Animator component op de player zit.");
+            Debug.LogError(
+                "Animator component niet gevonden op de Player! " +
+                "Zorg dat de Animator op hetzelfde GameObject zit als PlayerPickup."
+            );
         }
     }
 
     void Update()
     {
-        // Oppakken of neerleggen
+        // Oppakken / neerleggen
         if (Input.GetKeyDown(pickupKey))
         {
+            if (playerAnimator != null)
+            {
+                playerAnimator.SetTrigger("Pickup");
+            }
+
             if (heldObject == null)
             {
                 PickupNearest();
@@ -44,7 +53,6 @@ public class PlayerPickup : MonoBehaviour
             {
                 DropHeld();
             }
-
         }
 
         // Gooien
@@ -53,26 +61,24 @@ public class PlayerPickup : MonoBehaviour
             ThrowHeld();
         }
 
-                
-
-        // Houd object netjes op holdPoint
+        // Houd object vast op holdPoint
         if (heldObject != null)
         {
             heldObject.transform.position = holdPoint.position;
             heldObject.transform.rotation = holdPoint.rotation;
-
         }
     }
 
-    // Zoek dichtstbijzijnde object in trigger
+    // Zoek het dichtstbijzijnde object
     void PickupNearest()
     {
         GameObject nearest = null;
         float minDist = float.MaxValue;
 
-        foreach (var obj in nearbyObjects)
+        foreach (GameObject obj in nearbyObjects)
         {
             if (obj == null) continue;
+
             float dist = Vector3.Distance(obj.transform.position, holdPoint.position);
             if (dist < minDist)
             {
@@ -86,22 +92,22 @@ public class PlayerPickup : MonoBehaviour
             Pickup(nearest);
             isCarrying = true;
         }
+    }
 
-        void Pickup(GameObject obj)
+    void Pickup(GameObject obj)
+    {
+        heldObject = obj;
+        heldRb = obj.GetComponent<Rigidbody>();
+
+        if (heldRb != null)
         {
-            heldObject = obj;
-            heldRb = obj.GetComponent<Rigidbody>();
-
-            if (heldRb != null)
-            {
-                heldRb.isKinematic = true;      // Physics uit
-                heldRb.detectCollisions = false; // botsingen uit
-            }
-
-            obj.transform.SetParent(holdPoint);
-            obj.transform.localPosition = Vector3.zero;
-            obj.transform.localRotation = Quaternion.identity;
+            heldRb.isKinematic = true;
+            heldRb.detectCollisions = false;
         }
+
+        obj.transform.SetParent(holdPoint);
+        obj.transform.localPosition = Vector3.zero;
+        obj.transform.localRotation = Quaternion.identity;
     }
 
     public void DropHeld()
@@ -126,10 +132,10 @@ public class PlayerPickup : MonoBehaviour
         if (heldObject == null || heldRb == null) return;
 
         heldObject.transform.SetParent(null);
+
         heldRb.isKinematic = false;
         heldRb.detectCollisions = true;
 
-        // Gooirichting: vooruit + een beetje omhoog
         Vector3 throwDir = (transform.forward + Vector3.up * 0.2f).normalized;
         heldRb.AddForce(throwDir * throwForce, ForceMode.Impulse);
 
@@ -138,18 +144,20 @@ public class PlayerPickup : MonoBehaviour
         isCarrying = false;
     }
 
-    // Detecteer objecten in de buurt
+    // Detecteer pickupable objecten
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Pickupable") || other.CompareTag("SpawnedPickup"))
+        {
             nearbyObjects.Add(other.gameObject);
+        }
     }
 
     void OnTriggerExit(Collider other)
     {
         if (other.CompareTag("Pickupable") || other.CompareTag("SpawnedPickup"))
+        {
             nearbyObjects.Remove(other.gameObject);
+        }
     }
 }
-
-

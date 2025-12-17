@@ -784,37 +784,6 @@ SkinnedMeshRenderer:
     m_Center: {x: 0.0048179626, y: 0.8717263, z: 0.010620967}
     m_Extent: {x: 0.43089843, y: 0.54698324, z: 0.37440026}
   m_DirtyAABB: 0
---- !u!1 &4004954565526324331
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2216313274228645272}
-  m_Layer: 0
-  m_Name: HitCenter
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2216313274228645272
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4004954565526324331}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.85, z: 0.13}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 5367293752926140567}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4042332621817322661
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,12 +856,12 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5367293752926140567}
-  - component: {fileID: 6804982333097515813}
   - component: {fileID: 4880018989401357067}
   - component: {fileID: -1920862436249865243}
   - component: {fileID: 5582345058586876850}
   - component: {fileID: -7943684892336004420}
   - component: {fileID: 7171642172953034782}
+  - component: {fileID: -8968170688359311865}
   m_Layer: 0
   m_Name: Skeleton_Mage_prefab
   m_TagString: Untagged
@@ -909,7 +878,7 @@ Transform:
   m_GameObject: {fileID: 4699406807211549229}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.98615, y: 0, z: 33.23206}
+  m_LocalPosition: {x: 5.7818265, y: 0.00000011920929, z: 22.373251}
   m_LocalScale: {x: 0.5, y: 0.5, z: 0.5}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -922,25 +891,8 @@ Transform:
   - {fileID: 1596526749297246893}
   - {fileID: 3270613835787913520}
   - {fileID: 1518440232157960182}
-  - {fileID: 2216313274228645272}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6804982333097515813
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4699406807211549229}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7c15e5bf8538b5e409419ac800b1ba90, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 50
-  currentHealth: 50
-  animator: {fileID: 0}
-  destroyOnDeath: 1
 --- !u!136 &4880018989401357067
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -1015,9 +967,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b16b976d1ae93b048bac4ab9d4cc8b1a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
-  damage: 15
-  cooldown: 1
-  hitRadius: 1.6
+  damage: 5
+  cooldown: 3
+  hitRadius: 1
   playerLayer:
     serializedVersion: 2
     m_Bits: 8
@@ -1043,6 +995,22 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-8968170688359311865
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4699406807211549229}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7c15e5bf8538b5e409419ac800b1ba90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Health
+  maxHealth: 25
+  currentHealth: 25
+  animator: {fileID: 0}
+  destroyOnDeath: 1
 --- !u!1 &4738425470909493688
 GameObject:
   m_ObjectHideFlags: 0

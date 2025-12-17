@@ -1,132 +1,104 @@
 using UnityEngine;
-using System.Collections;
 using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(Rigidbody))]
 public class PlayerMovement : MonoBehaviour
 {
-    [Header("Movement Settings")]
+    [Header("Movement")]
     public float moveSpeed = 5f;
-    public float rotationSpeed = 10f;
+    public float rotationSpeed = 12f;
     public float jumpForce = 5f;
 
     private Rigidbody rb;
     private Animator animator;
-    private Vector3 moveDirection;
-    
-    // Checken of we op de grond staan
+
+    private Vector2 moveInput;
+    private bool jumpRequest;
     private bool isGrounded;
-    private bool jumpRequest = false;
-    
-    public bool IsGrounded => isGrounded;
-    public bool JumpRequested => jumpRequest;
 
-
-    void Start()
+    void Awake()
     {
         rb = GetComponent<Rigidbody>();
         animator = GetComponent<Animator>();
 
-        // Veiligheidscheck
-        if (animator == null) Debug.LogWarning("Geen Animator gevonden op de speler!");
+        // 🔒 Cruciale Rigidbody instellingen
+        rb.freezeRotation = true;
+        rb.interpolation = RigidbodyInterpolation.Interpolate;
+        rb.collisionDetectionMode = CollisionDetectionMode.Continuous;
     }
 
     void Update()
     {
-        // 1. Input ophalen (Input System & Keyboard fallback)
-        Vector2 inputVec = Vector2.zero;
+        // Input
+        moveInput = Vector2.zero;
 
         if (Gamepad.current != null)
-        {
-            inputVec = Gamepad.current.leftStick.ReadValue();
-        }
+            moveInput = Gamepad.current.leftStick.ReadValue();
         else if (Keyboard.current != null)
         {
-            if (Keyboard.current.aKey.isPressed || Keyboard.current.leftArrowKey.isPressed) inputVec.x -= 1f;
-            if (Keyboard.current.dKey.isPressed || Keyboard.current.rightArrowKey.isPressed) inputVec.x += 1f;
-            if (Keyboard.current.wKey.isPressed || Keyboard.current.upArrowKey.isPressed) inputVec.y += 1f;
-            if (Keyboard.current.sKey.isPressed || Keyboard.current.downArrowKey.isPressed) inputVec.y -= 1f;
-            inputVec = inputVec.normalized;
+            if (Keyboard.current.aKey.isPressed) moveInput.x -= 1;
+            if (Keyboard.current.dKey.isPressed) moveInput.x += 1;
+            if (Keyboard.current.wKey.isPressed) moveInput.y += 1;
+            if (Keyboard.current.sKey.isPressed) moveInput.y -= 1;
+            moveInput = moveInput.normalized;
         }
 
-        moveDirection = new Vector3(inputVec.x, 0f, inputVec.y);
-
-        // 2. Rotatie (Draaien naar looprichting)
-        if (moveDirection.magnitude > 0.1f)
-        {
-            Quaternion targetRotation = Quaternion.LookRotation(moveDirection);
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, rotationSpeed * Time.deltaTime);
-        }
-
-        // 3. Spring Input Check
-        bool jumpPressed = (Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) ||
-                           (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame);
-
-        if (jumpPressed && isGrounded)
+        // Jump
+        if (isGrounded &&
+           ((Keyboard.current != null && Keyboard.current.spaceKey.wasPressedThisFrame) ||
+            (Gamepad.current != null && Gamepad.current.buttonSouth.wasPressedThisFrame)))
         {
             jumpRequest = true;
         }
 
-        // 4. ANIMATIE: Snelheid doorgeven
-        // Dit zorgt dat hij wisselt tussen Idle en Run
-        if (animator != null) 
+        // Animatie
+        if (animator != null)
         {
-            animator.SetFloat("Speed", moveDirection.magnitude);
+            animator.SetFloat("Speed", moveInput.magnitude);
+            animator.SetBool("IsGrounded", isGrounded);
         }
     }
 
     void FixedUpdate()
     {
-        // Fysieke beweging
-        Vector3 move = moveDirection * moveSpeed * Time.fixedDeltaTime;
-        rb.MovePosition(rb.position + move);
+        // Beweging via velocity (STABIEL)
+        Vector3 move = new Vector3(moveInput.x, 0f, moveInput.y);
+        Vector3 velocity = rb.linearVelocity;
+        velocity.x = move.x * moveSpeed;
+        velocity.z = move.z * moveSpeed;
+        rb.linearVelocity = velocity;
 
-        // Springen uitvoeren
+        // Rotatie via Rigidbody
+        if (move.magnitude > 0.1f)
+        {
+            Quaternion targetRot = Quaternion.LookRotation(move);
+            rb.MoveRotation(Quaternion.Slerp(rb.rotation, targetRot, rotationSpeed * Time.fixedDeltaTime));
+        }
+
+        // Springen
         if (jumpRequest)
         {
-            // OPMERKING: Gebruik rb.velocity voor Unity 2022/2023. 
-            // Gebruik rb.linearVelocity alleen als je Unity 6 gebruikt.
-            Vector3 vel = rb.linearVelocity; 
-            vel.y = jumpForce;
-            rb.linearVelocity = vel;
-
-            isGrounded = false;
+            rb.linearVelocity = new Vector3(rb.linearVelocity.x, jumpForce, rb.linearVelocity.z);
             jumpRequest = false;
-
-            // ANIMATIE: Springen starten
-            if (animator != null)
-            {
-                animator.SetBool("IsGrounded", false);
-            }
+            isGrounded = false;
         }
     }
 
-    // --- Botsing Detectie (Voor Ground Check) ---
-
     void OnCollisionEnter(Collision collision)
     {
-        // BELANGRIJK: Zorg dat je vloer de Tag "Ground" heeft!
         if (collision.gameObject.CompareTag("Ground"))
-        {
             isGrounded = true;
-            if (animator != null) animator.SetBool("IsGrounded", true);
-        }
     }
 
     void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
-        {
             isGrounded = true;
-            if (animator != null) animator.SetBool("IsGrounded", true);
-        }
     }
 
     void OnCollisionExit(Collision collision)
     {
         if (collision.gameObject.CompareTag("Ground"))
-        {
             isGrounded = false;
-            if (animator != null) animator.SetBool("IsGrounded", false);
-        }
     }
 }
