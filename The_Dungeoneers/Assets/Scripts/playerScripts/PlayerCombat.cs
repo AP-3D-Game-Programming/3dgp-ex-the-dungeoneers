@@ -2,58 +2,83 @@ using UnityEngine;
 
 public class PlayerCombat : MonoBehaviour
 {
+    [Header("Attack Settings")]
     public int attackDamage = 25;
-    public float attackRange = 1.5f; // melee range
     public float attackCooldown = 0.6f;
-    public LayerMask enemyLayer; // zet layer(s) van vijanden
-    public Animator animator;
+    public float hitRadius = 0.35f;
 
-    float lastAttackTime = -999f;
+    [Header("Weapon")]
+    [SerializeField] private Transform weaponHitPoint;
+
+    [Header("Optional")]
+    [SerializeField] private PlayerPickup playerPickup;
+
+    private Animator animator;
+    private float lastAttackTime;
 
     void Awake()
     {
-        if (animator == null) animator = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
+
+        if (animator == null)
+            Debug.LogError("PlayerCombat: Animator niet gevonden!");
+
+        if (weaponHitPoint == null)
+            Debug.LogError("PlayerCombat: Weapon HitPoint niet ingesteld!");
     }
 
     void Update()
     {
         if (Input.GetMouseButtonDown(0))
         {
+            // Gooien heeft prioriteit
+            if (playerPickup != null && playerPickup.isCarrying)
+                return;
+
             TryAttack();
         }
     }
 
     void TryAttack()
     {
-        if (Time.time - lastAttackTime < attackCooldown) return;
+        if (Time.time - lastAttackTime < attackCooldown)
+            return;
+
         lastAttackTime = Time.time;
+        animator.SetTrigger("Attack");
     }
 
-    // Roep deze functie vanuit een Animation Event op het moment van impact in de attack animatie
+    // WORDT AANGEROEPEN DOOR PLAYER ATTACK ANIMATIE
     public void OnAttackHit()
     {
-        // vind alle vijanden in range
-        Collider[] hits = Physics.OverlapSphere(transform.position + transform.forward * (attackRange * 0.5f), attackRange, enemyLayer);
-        foreach (var hit in hits)
+        if (weaponHitPoint == null) return;
+
+        Collider[] hits = Physics.OverlapSphere(
+            weaponHitPoint.position,
+            hitRadius
+        );
+
+        foreach (Collider c in hits)
         {
-            IDamageable dmg = hit.GetComponent<IDamageable>();
+            // Nooit jezelf raken
+            if (c.transform.root == transform)
+                continue;
+
+            IDamageable dmg = c.GetComponentInParent<IDamageable>();
             if (dmg != null)
             {
                 dmg.TakeDamage(attackDamage);
             }
-            else
-            {
-                // fallback: probeer Health component
-                var health = hit.GetComponent<Health>();
-                if (health != null) health.TakeDamage(attackDamage);
-            }
         }
     }
 
-    // debug gizmo
+#if UNITY_EDITOR
     void OnDrawGizmosSelected()
     {
+        if (weaponHitPoint == null) return;
+
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position + transform.forward * (attackRange * 0.5f), attackRange);
+        Gizmos.DrawWireSphere(weaponHitPoint.position, hitRadius);
     }
+#endif
 }
