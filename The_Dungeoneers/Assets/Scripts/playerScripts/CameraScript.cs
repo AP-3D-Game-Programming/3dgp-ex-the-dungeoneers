@@ -15,12 +15,7 @@ public class CameraFollow : MonoBehaviour
 
     void Start()
     {
-        // 1. Zoek de speler als die er nog niet in zit
-        if (target == null)
-        {
-            GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
-            if (playerObj != null) target = playerObj.transform;
-        }
+        FindPlayerTarget();
 
         // 2. Initialiseer de 'sticker' voor de kleuren
         propBlock = new MaterialPropertyBlock();
@@ -28,10 +23,22 @@ public class CameraFollow : MonoBehaviour
         // (Optioneel) Zet offset automatisch als je dat wilt:
         // offset = transform.position - target.position; 
     }
-
+    void FindPlayerTarget()
+    {
+        GameObject playerObj = GameObject.FindGameObjectWithTag("Player");
+        if (playerObj != null)
+        {
+            target = playerObj.transform;
+        }
+    }
     void LateUpdate()
     {
-        if (target == null) return;
+        // Zorg ervoor dat de target dynamisch gevonden wordt als deze nog null is
+        if (target == null)
+        {
+            FindPlayerTarget();
+            if (target == null) return; // Als we nog steeds geen target hebben, stop hier
+        }
 
         // --- STAP A: Beweeg de Camera ---
         Vector3 desiredPosition = target.position + offset;
