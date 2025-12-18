@@ -1007,10 +1007,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c15e5bf8538b5e409419ac800b1ba90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Health
-  maxHealth: 25
-  currentHealth: 25
-  animator: {fileID: 0}
+  maxHealth: 50
+  currentHealth: 50
   destroyOnDeath: 1
+  destroyDelay: 2
+  animator: {fileID: 0}
 --- !u!1 &4738425470909493688
 GameObject:
   m_ObjectHideFlags: 0
