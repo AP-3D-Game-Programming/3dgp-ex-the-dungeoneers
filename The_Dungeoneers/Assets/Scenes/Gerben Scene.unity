@@ -1629,7 +1629,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84b8701907b84364a9b79a92181a52b3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::LootChest
-  itemInChest: {fileID: 11400000, guid: a6761d0ed7f186c43a5fb4b27b899af7, type: 2}
+  itemInChest: {fileID: 11400000, guid: 4a5e2beb0003d93439c9f74f12bb4914, type: 2}
   isOpened: 0
   interactRange: 3
 --- !u!1 &2074899754
