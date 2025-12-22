@@ -3,46 +3,58 @@ using UnityEngine;
 public class LootChest : MonoBehaviour
 {
     [Header("Wat zit er in?")]
-    public ItemData itemInChest; // Sleep je Item hierin (via Inspector)
+    public ItemData itemInChest; 
 
     [Header("Status")]
     public bool isOpened = false;
-    public float interactRange = 3f; // Hoe dichtbij moet je zijn?
+    public float interactRange = 3f;
+
+    [Header("Effects")]
+    public GameObject floatingTextPrefab; // <--- NIEUW: Sleep hier je prefab in
 
     private Transform player;
 
     void Start()
     {
-        // We zoeken de speler om de afstand te checken
-        // ZORG DAT JE SPELER DE TAG "Player" HEEFT!
         GameObject p = GameObject.FindGameObjectWithTag("Player");
         if (p != null) player = p.transform;
     }
 
     private void OnMouseDown()
     {
-        // 1. Als hij al open is, doe niets
         if (isOpened) return;
 
-        // 2. Check afstand (zodat je niet van 100 meter afstand kan klikken)
         if (player != null && Vector3.Distance(transform.position, player.position) > interactRange)
         {
             Debug.Log("Te ver weg!");
             return;
         }
 
-        // 3. Probeer het item aan de inventory te geven
-        // .Add() geeft 'true' terug als het lukt, en 'false' als de tas vol is.
         bool succes = Inventory.instance.Add(itemInChest);
 
         if (succes)
         {
+            // NIEUW: Zwevende tekst tonen
+            if (floatingTextPrefab != null)
+            {
+                // We spawnen de tekst iets boven de kist (Vector3.up)
+                GameObject ft = Instantiate(floatingTextPrefab, transform.position + Vector3.up, Quaternion.identity);
+                
+                // Groene tekst met "+ Naam van item"
+                ft.GetComponent<FloatingText>().SetText("+ " + itemInChest.itemName, Color.green);
+            }
+
             OpenChest();
         }
         else
         {
-            Debug.Log("Inventory zit vol! Maak eerst ruimte.");
-            // Hier zou je later een tekstje op het scherm kunnen tonen
+            Debug.Log("Inventory zit vol!");
+            // TIP: Je zou hier RODE tekst kunnen tonen: "Inventory Vol!"
+             if (floatingTextPrefab != null)
+            {
+                GameObject ft = Instantiate(floatingTextPrefab, transform.position + Vector3.up, Quaternion.identity);
+                ft.GetComponent<FloatingText>().SetText("Inventory Full!", Color.red);
+            }
         }
     }
 
@@ -50,12 +62,6 @@ public class LootChest : MonoBehaviour
     {
         isOpened = true;
         Debug.Log("Je hebt gevonden: " + itemInChest.name);
-
-        // VISUELE FEEDBACK:
-        // Verander de kleur naar grijs of speel een animatie
-        GetComponent<Renderer>().material.color = Color.white; 
-        
-        // Of als je een animatie hebt:
-        // GetComponent<Animator>().SetTrigger("Open");
+        GetComponent<Renderer>().material.color = Color.gray; 
     }
 }

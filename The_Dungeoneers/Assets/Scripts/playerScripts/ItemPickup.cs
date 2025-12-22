@@ -4,6 +4,7 @@ public class ItemPickup : MonoBehaviour
 {
     public ItemData item;   // Welk item is dit? (Wordt ingevuld door de Enemy)
     public float pickupRange = 2f; // Hoe dichtbij moet je staan?
+    public GameObject floatingTextPrefab; // Sleep de prefab hierin in de Inspector
 
     private Transform player;
 
@@ -35,16 +36,21 @@ public class ItemPickup : MonoBehaviour
 
     void PickUp()
     {
-        // Probeer toe te voegen aan inventory
         bool wasPickedUp = Inventory.instance.Add(item);
 
         if (wasPickedUp)
         {
-            Debug.Log("Opgeraapt: " + item.itemName);
-            
-            // Vernietig het 3D object in de wereld
-            Destroy(gameObject);
+            // NIEUW: Toon zwevende tekst
+            if (floatingTextPrefab != null)
+            {
+                GameObject ft = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity);
+                // Groene tekst met "+ Naam"
+                ft.GetComponent<FloatingText>().SetText("+ " + item.itemName, Color.green);
+            }
+
+            Destroy(gameObject); // (heb je al)
         }
+        // ...
         else
         {
             Debug.Log("Inventory vol!");
