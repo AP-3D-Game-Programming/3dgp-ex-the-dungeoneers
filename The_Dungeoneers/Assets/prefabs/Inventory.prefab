@@ -523,6 +523,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 4218107425084657080}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnUseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventorySlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8478843351051683666, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -699,6 +715,22 @@ PrefabInstance:
     - target: {fileID: 6151475459638184074, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 3918762214891869776}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnUseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventorySlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8478843351051683666, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -877,6 +909,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6474946304835362538}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnUseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventorySlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8478843351051683666, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -1054,6 +1102,22 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 6664858130700499028}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnUseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventorySlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
     - target: {fileID: 8478843351051683666, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
       value: 1
@@ -1230,6 +1294,22 @@ PrefabInstance:
     - target: {fileID: 6151475459638184074, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 5792339264515513265}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnUseButton
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
+      value: InventorySlot, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 7219591351101300152, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     - target: {fileID: 8478843351051683666, guid: 8cf4d80bfa66fc643944a50b12f8fcb7, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size

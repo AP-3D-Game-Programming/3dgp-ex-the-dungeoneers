@@ -1,9 +1,10 @@
 using UnityEngine;
+using UnityEngine.EventSystems; // <-- Deze is nodig om de UI te checken!
 
 public class PlayerCombat : MonoBehaviour
 {
     [Header("Attack Settings")]
-    public int attackDamage = 25;
+    // attackDamage halen we nu weg hier, want dat regelt PlayerEquipment!
     public float attackCooldown = 0.6f;
     public float hitRadius = 0.35f;
 
@@ -15,23 +16,31 @@ public class PlayerCombat : MonoBehaviour
 
     private Animator animator;
     private float lastAttackTime;
+    
+    // NIEUW: Referentie naar je equipment script
+    private PlayerEquipment equipment; 
 
     void Awake()
     {
         animator = GetComponent<Animator>();
+        // NIEUW: We zoeken het equipment script op dezelfde speler
+        equipment = GetComponent<PlayerEquipment>();
 
-        if (animator == null)
-            Debug.LogError("PlayerCombat: Animator niet gevonden!");
-
-        if (weaponHitPoint == null)
-            Debug.LogError("PlayerCombat: Weapon HitPoint niet ingesteld!");
+        if (animator == null) Debug.LogError("PlayerCombat: Animator niet gevonden!");
+        if (weaponHitPoint == null) Debug.LogError("PlayerCombat: Weapon HitPoint niet ingesteld!");
     }
 
     void Update()
     {
+        // 1. Check of we op een UI element klikken (Inventory, Pauze menu, etc.)
+        if (EventSystem.current.IsPointerOverGameObject())
+        {
+            return; // Stop direct! Ga niet verder met slaan.
+        }
+
+        // 2. Normale aanval logica
         if (Input.GetMouseButtonDown(0))
         {
-            // Gooien heeft prioriteit
             if (playerPickup != null && playerPickup.isCarrying)
                 return;
 
@@ -48,26 +57,31 @@ public class PlayerCombat : MonoBehaviour
         animator.SetTrigger("Attack");
     }
 
-    // WORDT AANGEROEPEN DOOR PLAYER ATTACK ANIMATIE
+    // WORDT AANGEROEPEN DOOR PLAYER ATTACK ANIMATIE EVENT
     public void OnAttackHit()
     {
         if (weaponHitPoint == null) return;
 
-        Collider[] hits = Physics.OverlapSphere(
-            weaponHitPoint.position,
-            hitRadius
-        );
+        Collider[] hits = Physics.OverlapSphere(weaponHitPoint.position, hitRadius);
 
         foreach (Collider c in hits)
         {
-            // Nooit jezelf raken
-            if (c.transform.root == transform)
-                continue;
+            if (c.transform.root == transform) continue;
 
             IDamageable dmg = c.GetComponentInParent<IDamageable>();
             if (dmg != null)
             {
-                dmg.TakeDamage(attackDamage);
+                // NIEUW: Hier vragen we de damage op!
+                int damageDealen = 5; // Standaard vuist damage
+
+                if (equipment != null)
+                {
+                    // Haal de berekende damage op uit het andere script (Base + Wapen)
+                    damageDealen = equipment.currentDamage;
+                }
+
+                dmg.TakeDamage(damageDealen);
+                Debug.Log("Hit! Dealt " + damageDealen + " damage.");
             }
         }
     }
@@ -76,7 +90,6 @@ public class PlayerCombat : MonoBehaviour
     void OnDrawGizmosSelected()
     {
         if (weaponHitPoint == null) return;
-
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(weaponHitPoint.position, hitRadius);
     }

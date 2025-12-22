@@ -84,4 +84,13 @@ public class Health : MonoBehaviour, IDamageable
 
         Destroy(gameObject);
     }
+
+    // Deze functie wordt aangeroepen door de Potion
+    public void Heal(int amount)
+    {
+        currentHealth += amount;
+        if (currentHealth > maxHealth) currentHealth = maxHealth;
+
+        Debug.Log("Speler genezen! Huidige HP: " + currentHealth);
+    }
 }
