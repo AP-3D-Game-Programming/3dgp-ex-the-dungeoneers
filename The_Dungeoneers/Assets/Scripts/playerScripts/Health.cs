@@ -15,6 +15,7 @@ public class Health : MonoBehaviour, IDamageable
     public Animator animator;
 
     private bool isDead = false;
+    public ItemData lootDrop;
 
     void Awake()
     {
@@ -65,5 +66,22 @@ public class Health : MonoBehaviour, IDamageable
         // Optioneel destroy
         if (destroyOnDeath)
             Destroy(gameObject, destroyDelay);
+        
+        if (lootDrop != null)
+        {
+            bool succes = Inventory.instance.Add(lootDrop);
+        
+            if (succes)
+            {
+                Debug.Log("Enemy dropt " + lootDrop.name + " in je tas!");
+            }
+            else
+            {
+                Debug.Log("Enemy had loot, maar je tas zit vol!");
+                // Optioneel: Spawn het item dan alsnog op de grond (komen we later op)
+            }
+        }
+
+        Destroy(gameObject);
     }
 }

@@ -97,8 +97,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 50
   currentHealth: 50
-  animator: {fileID: 0}
   destroyOnDeath: 1
+  destroyDelay: 2
+  animator: {fileID: 0}
+  lootDrop: {fileID: 11400000, guid: 13f690cf3368e3a4cb0f1dfd859fc121, type: 2}
 --- !u!136 &801826599636352269
 CapsuleCollider:
   m_ObjectHideFlags: 0
