@@ -34,11 +34,22 @@ public class InventoryUI : MonoBehaviour
 
     void UpdateUI()
     {
-        // ... (de rest van je code blijft hetzelfde)
+        // Let op: slots[] array blijft hetzelfde
+        // Maar we vragen nu de nieuwe lijst op
+        
+        // We itereren tot de limiet van OF de slots OF de items
         for (int i = 0; i < slots.Length; i++)
         {
-            if (i < inventory.items.Count) slots[i].AddItem(inventory.items[i]);
-            else slots[i].ClearSlot();
+            if (i < inventory.items.Count)
+            {
+                // We hebben een item voor dit slot!
+                // Pak het item EN het aantal uit de InventoryItem class
+                slots[i].AddItem(inventory.items[i].data, inventory.items[i].stackSize);
+            }
+            else
+            {
+                slots[i].ClearSlot();
+            }
         }
     }
 }

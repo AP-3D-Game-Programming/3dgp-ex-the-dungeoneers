@@ -15,5 +15,6 @@ MonoBehaviour:
   itemName: Iron Attack Sword
   icon: {fileID: 21300000, guid: 2a2dc7e405c23054ab3921e69c9045e9, type: 3}
   isStackable: 0
+  maxStackSize: 1
   description: Een scherp zwaard. Doet +15 damage.
   damageBonus: 15

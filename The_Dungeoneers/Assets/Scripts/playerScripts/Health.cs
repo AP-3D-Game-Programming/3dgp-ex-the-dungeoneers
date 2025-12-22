@@ -15,7 +15,10 @@ public class Health : MonoBehaviour, IDamageable
     public Animator animator;
 
     private bool isDead = false;
-    public ItemData lootDrop;
+    
+    [Header("Loot Settings")]
+    public ItemData lootDrop;         // Het item (Data)
+    public GameObject lootPrefab;     // De 3D Prefab (Die LootDrop cube die je net maakte)
 
     void Awake()
     {
@@ -67,18 +70,17 @@ public class Health : MonoBehaviour, IDamageable
         if (destroyOnDeath)
             Destroy(gameObject, destroyDelay);
         
-        if (lootDrop != null)
+        // NIEUWE LOOT CODE:
+        if (lootDrop != null && lootPrefab != null)
         {
-            bool succes = Inventory.instance.Add(lootDrop);
-        
-            if (succes)
+            // 1. Maak het object in de wereld (op de positie van de enemy + klein beetje omhoog)
+            GameObject droppedObject = Instantiate(lootPrefab, transform.position + Vector3.up, Quaternion.identity);
+
+            // 2. Vertel het object welk item het is
+            ItemPickup pickupScript = droppedObject.GetComponent<ItemPickup>();
+            if (pickupScript != null)
             {
-                Debug.Log("Enemy dropt " + lootDrop.name + " in je tas!");
-            }
-            else
-            {
-                Debug.Log("Enemy had loot, maar je tas zit vol!");
-                // Optioneel: Spawn het item dan alsnog op de grond (komen we later op)
+                pickupScript.item = lootDrop;
             }
         }
 
