@@ -30,4 +30,12 @@ public class InventorySlot : MonoBehaviour
             Inventory.instance.Remove(item);
         }
     }
+    // Koppel deze functie straks aan de knop op het Icoon
+    public void OnUseButton()
+    {
+        if (item != null)
+        {
+            item.Use();
+        }
+    }
 }
