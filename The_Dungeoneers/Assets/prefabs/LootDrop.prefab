@@ -154,3 +154,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::ItemPickup
   item: {fileID: 0}
   pickupRange: 2
+  floatingTextPrefab: {fileID: 2533348243801104488, guid: 3e90bc6528c7ba148a09f2b7c68631fd, type: 3}

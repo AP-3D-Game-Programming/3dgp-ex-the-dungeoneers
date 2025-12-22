@@ -14,6 +14,9 @@ public class PlayerCombat : MonoBehaviour
     [Header("Optional")]
     [SerializeField] private PlayerPickup playerPickup;
 
+    [Header("Effects")]
+    public GameObject floatingTextPrefab;
+
     private Animator animator;
     private float lastAttackTime;
     
@@ -81,6 +84,22 @@ public class PlayerCombat : MonoBehaviour
                 }
 
                 dmg.TakeDamage(damageDealen);
+                if (dmg != null)
+            {
+                // ... damage berekening ... (heb je al)
+                
+                dmg.TakeDamage(damageDealen); // (heb je al)
+
+                // NIEUW: Toon zwevende tekst
+                if (floatingTextPrefab != null)
+                {
+                    // Maak de tekst op de plek van de vijand (c.transform.position)
+                    GameObject ft = Instantiate(floatingTextPrefab, c.transform.position, Quaternion.identity);
+                    
+                    // Stel de tekst en kleur in
+                    ft.GetComponent<FloatingText>().SetText(damageDealen.ToString(), Color.yellow);
+                }
+            }
                 Debug.Log("Hit! Dealt " + damageDealen + " damage.");
             }
         }

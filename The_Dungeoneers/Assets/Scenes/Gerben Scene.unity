@@ -1445,66 +1445,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1679920103}
   m_CullTransparentMesh: 1
---- !u!1 &1789460246
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1789460248}
-  - component: {fileID: 1789460247}
-  - component: {fileID: 1789460249}
-  m_Layer: 0
-  m_Name: Testmanager
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1789460247
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1789460246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2b17a8df635a1a44aa1f76c3da07497e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::TestLoot
-  itemToGive: {fileID: 11400000, guid: a6761d0ed7f186c43a5fb4b27b899af7, type: 2}
---- !u!4 &1789460248
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1789460246}
-  serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1474.0295, y: 0, z: -682.0296}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1789460249
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1789460246}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: deb1e63330335ba4bbcf7faea0046087, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::Inventory
-  space: 5
-  items: []
 --- !u!1 &1973450676
 GameObject:
   m_ObjectHideFlags: 0
@@ -1632,6 +1572,7 @@ MonoBehaviour:
   itemInChest: {fileID: 11400000, guid: 4a5e2beb0003d93439c9f74f12bb4914, type: 2}
   isOpened: 0
   interactRange: 3
+  floatingTextPrefab: {fileID: 2533348243801104488, guid: 3e90bc6528c7ba148a09f2b7c68631fd, type: 3}
 --- !u!1 &2074899754
 GameObject:
   m_ObjectHideFlags: 0
@@ -1968,6 +1909,5 @@ SceneRoots:
   - {fileID: 2566885}
   - {fileID: 2074899758}
   - {fileID: 533700459}
-  - {fileID: 1789460248}
   - {fileID: 8395662199710231417}
   - {fileID: 1973450680}

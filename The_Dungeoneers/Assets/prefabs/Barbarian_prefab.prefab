@@ -346,6 +346,7 @@ MonoBehaviour:
   destroyDelay: 2
   animator: {fileID: 0}
   lootDrop: {fileID: 0}
+  lootPrefab: {fileID: 0}
 --- !u!114 &2000695548945756488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,6 +363,7 @@ MonoBehaviour:
   hitRadius: 0.3
   weaponHitPoint: {fileID: 5725245601007154370}
   playerPickup: {fileID: 0}
+  floatingTextPrefab: {fileID: 2533348243801104488, guid: 3e90bc6528c7ba148a09f2b7c68631fd, type: 3}
 --- !u!114 &5100021304344832213
 MonoBehaviour:
   m_ObjectHideFlags: 0
