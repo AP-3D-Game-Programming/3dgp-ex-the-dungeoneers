@@ -5,6 +5,8 @@ public class EquipmentItem : ItemData
 {
     public int damageBonus = 10;
 
+
+    
     public override void Use()
     {
         base.Use();
