@@ -15,4 +15,6 @@ MonoBehaviour:
   itemName: Health Potion
   icon: {fileID: 21300000, guid: 701478ef13404c744b3c66105dcb467a, type: 3}
   isStackable: 1
+  maxStackSize: 5
+  description: Health je wonden. +20 HP
   healthGain: 20

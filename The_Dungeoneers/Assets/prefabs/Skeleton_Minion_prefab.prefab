@@ -100,7 +100,8 @@ MonoBehaviour:
   destroyOnDeath: 1
   destroyDelay: 2
   animator: {fileID: 0}
-  lootDrop: {fileID: 11400000, guid: 13f690cf3368e3a4cb0f1dfd859fc121, type: 2}
+  lootDrop: {fileID: 11400000, guid: 4a5e2beb0003d93439c9f74f12bb4914, type: 2}
+  lootPrefab: {fileID: 3263161374052616091, guid: fc6f6d5f1c39ca6469623920a1320679, type: 3}
 --- !u!136 &801826599636352269
 CapsuleCollider:
   m_ObjectHideFlags: 0
