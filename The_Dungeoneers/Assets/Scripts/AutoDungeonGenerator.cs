@@ -484,6 +484,7 @@ public class AutoDungeonGenerator : MonoBehaviour
                 Vector3 spawnPos = kamer.GetRandomPositie(tileSize, margin: 1f);
 
                 GameObject chest = Instantiate(chestPrefab, spawnPos, Quaternion.identity);
+                chest.transform.rotation = Quaternion.Euler(-90f, 0f, 90f);
                 chest.transform.parent = chestsParent.transform;
                 chest.name = $"Chest_{kamer.CenterX}_{kamer.CenterZ}_{i}";
 
