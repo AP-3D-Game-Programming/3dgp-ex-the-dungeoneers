@@ -195,4 +195,4 @@ MonoBehaviour:
   moveSpeed: 2
   destroyTime: 1
   offset: {x: 0, y: 2, z: 0}
-  textMesh: {fileID: 0}
+  textMesh: {fileID: 5364148261575415485}
