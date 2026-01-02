@@ -1178,6 +1178,10 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 2506644219281323715, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
+      propertyPath: bossPrefab
+      value: 
+      objectReference: {fileID: 6029846243742397199, guid: 4c1628db28bce174686ee7458d81d611, type: 3}
+    - target: {fileID: 2506644219281323715, guid: 523d40fb6de56f14f8a4bd74608f937a, type: 3}
       propertyPath: aantalKamers
       value: 20
       objectReference: {fileID: 0}
