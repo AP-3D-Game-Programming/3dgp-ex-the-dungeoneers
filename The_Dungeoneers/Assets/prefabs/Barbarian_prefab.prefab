@@ -342,8 +342,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
   currentHealth: 100
+  bloodEffectPrefab: {fileID: 5437812879682356543, guid: ddb21bdfb1d7b4f4d8007d21a93fa91d, type: 3}
   destroyOnDeath: 1
   destroyDelay: 2
+  isBoss: 0
+  bossHealthMultiplier: 5
   animator: {fileID: 0}
   lootDrop: {fileID: 0}
   lootPrefab: {fileID: 0}

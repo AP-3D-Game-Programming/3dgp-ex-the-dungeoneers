@@ -7,6 +7,9 @@ public class Health : MonoBehaviour, IDamageable
     public int maxHealth = 100;
     public int currentHealth;
 
+    [Header("Visuals")]
+    public GameObject bloodEffectPrefab; // Sleep hier je BloodSplatter_FX prefab naartoe
+
     [Header("Death Settings")]
     public bool destroyOnDeath = false;
     public float destroyDelay = 2f;
@@ -19,14 +22,14 @@ public class Health : MonoBehaviour, IDamageable
     public Animator animator;
 
     private bool isDead = false;
-    
+
     [Header("Loot Settings")]
     public ItemData lootDrop;         // Het item (Data)
     public GameObject lootPrefab;     // De 3D Prefab (Die LootDrop cube die je net maakte)
 
     void Awake()
     {
-        // 1. Eerst de animator zoeken (zoals je al deed)
+        // 1. Eerst de animator zoeken
         if (animator == null)
             animator = GetComponent<Animator>();
 
@@ -46,6 +49,13 @@ public class Health : MonoBehaviour, IDamageable
         if (isDead) return;
 
         currentHealth -= amount;
+
+        // --- BLOED EFFECT LOGICA ---
+        if (bloodEffectPrefab != null)
+        {
+            // Spawn het effect iets boven de grond (bij de romp van het personage)
+            Instantiate(bloodEffectPrefab, transform.position + Vector3.up, Quaternion.identity);
+        }
 
         if (currentHealth <= 0)
         {
@@ -68,20 +78,19 @@ public class Health : MonoBehaviour, IDamageable
         if (animator != null)
             animator.SetTrigger("Die");
 
-        // Collider uitzetten
+        // Collider uitzetten zodat de speler erdoorheen kan lopen
         Collider col = GetComponent<Collider>();
         if (col != null)
             col.enabled = false;
 
-        // NavMeshAgent uitzetten
+        // NavMeshAgent uitzetten zodat hij stopt met bewegen
         NavMeshAgent agent = GetComponent<NavMeshAgent>();
         if (agent != null)
+        {
+            if (agent.isOnNavMesh) agent.isStopped = true;
             agent.enabled = false;
+        }
 
-        // Optioneel destroy
-        if (destroyOnDeath)
-            Destroy(gameObject, destroyDelay);
-        
         // NIEUWE LOOT CODE:
         if (lootDrop != null && lootPrefab != null)
         {
@@ -96,7 +105,16 @@ public class Health : MonoBehaviour, IDamageable
             }
         }
 
-        Destroy(gameObject);
+        // Vernietig het object na de ingestelde delay
+        if (destroyOnDeath)
+        {
+            Destroy(gameObject, destroyDelay);
+        }
+        else
+        {
+            // Als we niet destroyen, vernietigen we het alsnog om de scene op te ruimen (of laat de code staan zoals je wilt)
+            Destroy(gameObject, destroyDelay);
+        }
     }
 
     // Deze functie wordt aangeroepen door de Potion
@@ -105,6 +123,6 @@ public class Health : MonoBehaviour, IDamageable
         currentHealth += amount;
         if (currentHealth > maxHealth) currentHealth = maxHealth;
 
-        Debug.Log("Speler genezen! Huidige HP: " + currentHealth);
+        Debug.Log("Genezings-effect! Huidige HP: " + currentHealth);
     }
 }
