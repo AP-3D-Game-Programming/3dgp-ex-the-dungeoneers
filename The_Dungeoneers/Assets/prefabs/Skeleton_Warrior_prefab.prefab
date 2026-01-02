@@ -176,7 +176,7 @@ MonoBehaviour:
   attackRange: 2
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   isBoss: 1
   bossScaleMultiplier: 2
   bossAggroMultiplier: 2
@@ -198,7 +198,7 @@ MonoBehaviour:
   hitRadius: 1
   playerLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 8
   isBoss: 1
   bossDamageMultiplier: 1.5
 --- !u!95 &-8690137026396881036
