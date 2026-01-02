@@ -381,13 +381,13 @@ public class AutoDungeonGenerator : MonoBehaviour
         // Bonus enemies voor grote kamers
         int bonusEnemies = kamer.Oppervlakte > 50 ? Random.Range(0, 3) : 0;
 
+        int totaalEnemies = baseAantal + bonusEnemies;
+
         // Boss kamers krijgen meer enemies
         if (kamer.type == KamerType.Boss)
         {
-            baseAantal += 2;
+            totaalEnemies = 1;
         }
-
-        int totaalEnemies = baseAantal + bonusEnemies;
 
         // Spawn elke enemy
         for (int i = 0; i < totaalEnemies; i++)
@@ -406,7 +406,24 @@ public class AutoDungeonGenerator : MonoBehaviour
             );
 
             enemy.transform.parent = enemiesParent.transform;
-            enemy.name = $"{enemyInfo.naam}_{kamer.CenterX}_{kamer.CenterZ}_{i}";
+
+            // BOSS instellingen
+            if (kamer.type == KamerType.Boss)
+            {
+                EnemyAI ai = enemy.GetComponent<EnemyAI>();
+                EnemyCombat combat = enemy.GetComponent<EnemyCombat>();
+                Health hp = enemy.GetComponent<Health>();
+
+                if (ai != null) ai.isBoss = true;
+                if (combat != null) combat.isBoss = true;
+                if (hp != null) hp.isBoss = true;
+
+                enemy.name = "BOSS";
+            }
+            else
+            {
+                enemy.name = $"{enemyInfo.naam}_{kamer.CenterX}_{kamer.CenterZ}_{i}";
+            }
 
             kamer.enemies.Add(enemy);
             gespawndeEnemies.Add(enemy);

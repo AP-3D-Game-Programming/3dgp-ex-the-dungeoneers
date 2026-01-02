@@ -11,6 +11,10 @@ public class Health : MonoBehaviour, IDamageable
     public bool destroyOnDeath = false;
     public float destroyDelay = 2f;
 
+    [Header("Boss Settings")]
+    public bool isBoss = false;
+    public float bossHealthMultiplier = 5f;
+
     [Header("References")]
     public Animator animator;
 
@@ -22,10 +26,18 @@ public class Health : MonoBehaviour, IDamageable
 
     void Awake()
     {
-        currentHealth = maxHealth;
-
+        // 1. Eerst de animator zoeken (zoals je al deed)
         if (animator == null)
             animator = GetComponent<Animator>();
+
+        // 2. Check of dit een boss is en verhoog de max HP
+        if (isBoss)
+        {
+            maxHealth = Mathf.RoundToInt(maxHealth * bossHealthMultiplier);
+        }
+
+        // 3. Nu pas de huidige HP gelijk zetten aan de (nieuwe) maxHealth
+        currentHealth = maxHealth;
     }
 
     public void TakeDamage(int amount)
