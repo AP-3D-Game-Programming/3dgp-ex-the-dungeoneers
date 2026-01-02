@@ -178,7 +178,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 248cbb56f02b52141a0ad4951450c864, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CameraFollow
-  target: {fileID: 0}
+  target: {fileID: 1967621568205172992, guid: 5c33ef01718f580408444b50eace3545, type: 3}
   smoothSpeed: 0.125
   offset: {x: 0, y: 9, z: -10}
   obstacleLayer:

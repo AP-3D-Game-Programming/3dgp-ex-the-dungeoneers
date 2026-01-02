@@ -163,7 +163,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &-8679921383154817045
 Transform:
   m_ObjectHideFlags: 0
@@ -252,6 +252,7 @@ GameObject:
   - component: {fileID: 5100021304344832213}
   - component: {fileID: 6170654998521298675}
   - component: {fileID: 1886388979697540912}
+  - component: {fileID: 5871581956602490574}
   m_Layer: 3
   m_Name: Barbarian_prefab
   m_TagString: Player
@@ -341,8 +342,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 100
   currentHealth: 100
-  animator: {fileID: 0}
   destroyOnDeath: 1
+  destroyDelay: 2
+  animator: {fileID: 0}
+  lootDrop: {fileID: 0}
+  lootPrefab: {fileID: 0}
 --- !u!114 &2000695548945756488
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -355,11 +359,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26d02223e5fe6234f8d3b2c44973095c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerCombat
-  attackDamage: 25
   attackCooldown: 0.5
   hitRadius: 0.3
   weaponHitPoint: {fileID: 5725245601007154370}
   playerPickup: {fileID: 0}
+  floatingTextPrefab: {fileID: 2533348243801104488, guid: 3e90bc6528c7ba148a09f2b7c68631fd, type: 3}
 --- !u!114 &5100021304344832213
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,7 +386,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1154528752973409210}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 846969c486558754cafd788b2ceaac07, type: 3}
   m_Name: 
@@ -419,6 +423,22 @@ Rigidbody:
   m_Interpolate: 1
   m_Constraints: 0
   m_CollisionDetection: 1
+--- !u!114 &5871581956602490574
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1154528752973409210}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d6867781b873b9a43afb0299439396d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerEquipment
+  currentWeaponModel: {fileID: 919132149155446097}
+  baseDamage: 5
+  currentDamage: 0
+  currentEquippedItem: {fileID: 0}
 --- !u!1 &1220568421996492847
 GameObject:
   m_ObjectHideFlags: 0

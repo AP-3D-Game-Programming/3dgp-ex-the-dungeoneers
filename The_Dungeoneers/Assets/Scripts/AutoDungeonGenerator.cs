@@ -11,7 +11,7 @@ public class AutoDungeonGenerator : MonoBehaviour
 
     [Header("Player")]
     public GameObject spelerPrefab;  // De speler prefab (bijvoorbeeld een mannetje)
-    private GameObject spelerInstance;  // Referentie naar de huidige speler instantie
+    public GameObject spelerInstance;  // Referentie naar de huidige speler instantie
 
     [Header("Prefabs - Enemies")]
     public List<EnemySpawnInfo> enemyTypes = new List<EnemySpawnInfo>();
@@ -49,10 +49,11 @@ public class AutoDungeonGenerator : MonoBehaviour
     public float chestSpawnKans = 0.3f;  // Kans dat een normale kamer een chest krijgt
     public int maxChestsPerKamer = 2;    // Maximaal aantal chests per kamer
 
+
     [Header("NavMesh Surface")]
     public NavMeshSurface navMeshSurface;  // Referentie naar het NavMeshSurface-component
 
-    private float tileSize = 4f;
+    public float tileSize = 4f;
     private GameObject dungeonParent;
     private GameObject enemiesParent;
     private GameObject chestsParent;
