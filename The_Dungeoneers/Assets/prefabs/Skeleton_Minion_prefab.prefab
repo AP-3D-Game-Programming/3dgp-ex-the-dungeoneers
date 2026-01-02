@@ -77,6 +77,15 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d2d391869540310488dfd29f3aecfb3e, type: 3}
       insertIndex: -1
       addedObject: {fileID: -1869211583504363701}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d2d391869540310488dfd29f3aecfb3e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1212040227630974064}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d2d391869540310488dfd29f3aecfb3e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 681047671827974918}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: d2d391869540310488dfd29f3aecfb3e, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -4101111075821702048}
   m_SourcePrefab: {fileID: 100100000, guid: d2d391869540310488dfd29f3aecfb3e, type: 3}
 --- !u!1 &4155970520181617617 stripped
 GameObject:
@@ -99,6 +108,8 @@ MonoBehaviour:
   currentHealth: 50
   destroyOnDeath: 1
   destroyDelay: 2
+  isBoss: 0
+  bossHealthMultiplier: 5
   animator: {fileID: 0}
   lootDrop: {fileID: 11400000, guid: a6761d0ed7f186c43a5fb4b27b899af7, type: 2}
   lootPrefab: {fileID: 3263161374052616091, guid: fc6f6d5f1c39ca6469623920a1320679, type: 3}
@@ -147,3 +158,65 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &1212040227630974064
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155970520181617617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5212149567cc04d45adec61b9da4d119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  aggroRange: 10
+  attackRange: 2
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  isBoss: 0
+  bossScaleMultiplier: 2
+  bossAggroMultiplier: 2
+--- !u!114 &681047671827974918
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155970520181617617}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16b976d1ae93b048bac4ab9d4cc8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
+  damage: 15
+  attackRange: 1.5
+  hitRadius: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  isBoss: 0
+  bossDamageMultiplier: 1.5
+--- !u!95 &-4101111075821702048
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4155970520181617617}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1db2ed42c751b414a8df923020bb8d8e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
