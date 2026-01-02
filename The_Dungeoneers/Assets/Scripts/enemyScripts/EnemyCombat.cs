@@ -4,6 +4,7 @@ public class EnemyCombat : MonoBehaviour
 {
     [Header("Attack Settings")]
     public int damage = 15;
+    public float attackCooldown = 1.5f; // Dit voorkomt dat je in 1 seconde doodgaat
     public float attackRange = 1.5f;
     public float hitRadius = 1.0f;
     public LayerMask playerLayer;
@@ -19,7 +20,7 @@ public class EnemyCombat : MonoBehaviour
         if (animator == null)
             animator = GetComponent<Animator>();
 
-        // De Boss doet meer schade en heeft een groter bereik
+        // We passen de stats aan als dit een Boss is
         if (isBoss)
         {
             damage = Mathf.RoundToInt(damage * bossDamageMultiplier);
@@ -27,11 +28,18 @@ public class EnemyCombat : MonoBehaviour
             hitRadius *= 1.5f;
         }
     }
+    public void OnAttackHit()
+    {
+        // Laat dit leeg
+    }
 
-    // Deze methode wordt aangeroepen door je EnemyAI of een Animation Event
+    // Deze methode wordt nu aangeroepen door de timer in EnemyAI.cs
     public void PerformAttackDamage()
     {
-        // Maak een onzichtbare cirkel voor de enemy om te checken of de speler geraakt wordt
+        // Debug om te zien in de console of de aanval start
+        Debug.Log(gameObject.name + " voert aanval uit!");
+
+        // Check voor de speler in de hit-zone
         Collider[] hitPlayers = Physics.OverlapSphere(transform.position + transform.forward * attackRange, hitRadius, playerLayer);
 
         foreach (Collider player in hitPlayers)
@@ -45,7 +53,7 @@ public class EnemyCombat : MonoBehaviour
         }
     }
 
-    // Teken de hit-zone in de Scene view zodat je het kunt debuggen
+    // Teken de hit-zone in de Scene view voor hulp bij instellen
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.red;

@@ -11,7 +11,7 @@ public class EnemyAI : MonoBehaviour
 
     [Header("Boss Settings")]
     public bool isBoss = false;
-    public float bossScaleMultiplier = 2f; // Iets kleiner gezet voor NavMesh veiligheid
+    public float bossScaleMultiplier = 2f;
     public float bossAggroMultiplier = 2f;
 
     private NavMeshAgent agent;
@@ -19,6 +19,9 @@ public class EnemyAI : MonoBehaviour
     private Animator animator;
     private EnemyCombat combat;
     private Health health;
+
+    // Timer voor de aanval
+    private float nextAttackTime = 0f;
 
     void Awake()
     {
@@ -32,7 +35,6 @@ public class EnemyAI : MonoBehaviour
             transform.localScale *= bossScaleMultiplier;
             aggroRange *= bossAggroMultiplier;
 
-            // Pas op met radius: te groot = kan nergens lopen
             agent.speed *= 0.8f;
             agent.stoppingDistance = attackRange - 0.5f;
         }
@@ -76,7 +78,6 @@ public class EnemyAI : MonoBehaviour
         // 5. Update Animator
         if (animator != null)
         {
-            // Gebruik velocity magnitude voor ren-animatie
             animator.SetFloat("Speed", agent.velocity.magnitude);
         }
     }
@@ -100,24 +101,35 @@ public class EnemyAI : MonoBehaviour
     void AttackTarget()
     {
         agent.isStopped = true;
+
         // Zorg dat de enemy naar de speler kijkt tijdens aanval
         Vector3 direction = (target.position - transform.position).normalized;
         Quaternion lookRotation = Quaternion.LookRotation(new Vector3(direction.x, 0, direction.z));
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRotation, Time.deltaTime * 5f);
 
-        if (combat != null)
+        // COOLDOWN CHECK: Alleen schade doen als de tijd voorbij is
+        if (Time.time >= nextAttackTime)
         {
-            combat.PerformAttackDamage(); // Verander naar de naam van de functie in jouw EnemyCombat
+            if (combat != null)
+            {
+                combat.PerformAttackDamage();
+                // Gebruik de cooldown uit het Combat script
+                nextAttackTime = Time.time + combat.attackCooldown;
+            }
+
+            if (animator != null)
+            {
+                animator.SetTrigger("Attack");
+            }
         }
     }
 
     void StopFollowing()
     {
-        target = null; // Speler is te ver weg
+        target = null;
         agent.isStopped = true;
     }
 
-    // Teken de Aggro Range in de editor (handig voor debuggen)
     private void OnDrawGizmosSelected()
     {
         Gizmos.color = Color.yellow;
