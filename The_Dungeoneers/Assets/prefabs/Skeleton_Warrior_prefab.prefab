@@ -74,6 +74,18 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
       insertIndex: -1
       addedObject: {fileID: 7946792836999051701}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3922443161405128033}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6616552467033157930}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -6734012045699763021}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: -8690137026396881036}
   m_SourcePrefab: {fileID: 100100000, guid: 181746b960c14e946a7de8dbbe591c95, type: 3}
 --- !u!1 &6029846243742397199 stripped
 GameObject:
@@ -94,8 +106,15 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::Health
   maxHealth: 50
   currentHealth: 50
-  animator: {fileID: 0}
+  bloodEffectPrefab: {fileID: 0}
+  healthSlider: {fileID: 0}
   destroyOnDeath: 1
+  destroyDelay: 2
+  isBoss: 0
+  bossHealthMultiplier: 5
+  animator: {fileID: 0}
+  lootDrop: {fileID: 0}
+  lootPrefab: {fileID: 0}
 --- !u!136 &7946792836999051701
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -119,3 +138,88 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!195 &3922443161405128033
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6029846243742397199}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &6616552467033157930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6029846243742397199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5212149567cc04d45adec61b9da4d119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyAI
+  aggroRange: 10
+  attackRange: 2
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  isBoss: 1
+  bossScaleMultiplier: 2
+  bossAggroMultiplier: 2
+--- !u!114 &-6734012045699763021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6029846243742397199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b16b976d1ae93b048bac4ab9d4cc8b1a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::EnemyCombat
+  damage: 15
+  attackCooldown: 1.5
+  attackRange: 1.5
+  hitRadius: 1
+  playerLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  isBoss: 1
+  bossDamageMultiplier: 1.5
+--- !u!95 &-8690137026396881036
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6029846243742397199}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1db2ed42c751b414a8df923020bb8d8e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

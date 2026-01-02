@@ -2,6 +2,7 @@
 using UnityEngine.AI;
 using System.Collections.Generic;
 
+
 public class AutoDungeonGenerator : MonoBehaviour
 {
     [Header("Prefabs - Dungeon")]
@@ -15,6 +16,9 @@ public class AutoDungeonGenerator : MonoBehaviour
 
     [Header("Prefabs - Enemies")]
     public List<EnemySpawnInfo> enemyTypes = new List<EnemySpawnInfo>();
+
+    [Header("Boss Prefab")]
+    public GameObject bossPrefab; // Sleep hier je speciale Boss-prefab in
 
     [Header("Prefabs - Chests")]
     public GameObject chestPrefab;   // Schatkist prefab
@@ -279,21 +283,8 @@ public class AutoDungeonGenerator : MonoBehaviour
         // Loop door alle tussenliggende kamers (behalve start en boss)
         for (int i = 1; i < kamers.Count - 1; i++)
         {
-            // Eerst kijken of dit een Treasure-kamer wordt
-            if (Random.value < treasureKans)
-            {
-                kamers[i].type = KamerType.Treasure;
-                continue;  // Als treasure, verder niets doen
-            }
-
-            // Dan kijken of dit een Safe-kamer wordt
-            if (Random.value < safeKans)
-            {
-                kamers[i].type = KamerType.Safe;
-                continue;  // Als safe, verder niets doen
-            }
-
-            // Anders blijft het een normale kamer
+            if (Random.value < treasureKans) kamers[i].type = KamerType.Treasure;
+            else if (Random.value < safeKans) kamers[i].type = KamerType.Safe;
         }
     }
 
@@ -375,57 +366,49 @@ public class AutoDungeonGenerator : MonoBehaviour
 
     void SpawnEnemiesInKamer(Kamer kamer)
     {
-        // Bepaal aantal enemies (schaal met kamer grootte)
-        int baseAantal = Random.Range(minEnemiesPerKamer, maxEnemiesPerKamer + 1);
-
-        // Bonus enemies voor grote kamers
-        int bonusEnemies = kamer.Oppervlakte > 50 ? Random.Range(0, 3) : 0;
-
-        int totaalEnemies = baseAantal + bonusEnemies;
-
-        // Boss kamers krijgen meer enemies
+        // --- 1. CHECK OF HET EEN BOSS KAMER IS ---
         if (kamer.type == KamerType.Boss)
         {
-            totaalEnemies = 1;
-        }
-
-        // Spawn elke enemy
-        for (int i = 0; i < totaalEnemies; i++)
-        {
-            EnemySpawnInfo enemyInfo = KiesRandomEnemy(kamer);
-
-            if (enemyInfo == null || enemyInfo.prefab == null)
-                continue;
-
-            Vector3 spawnPos = kamer.GetRandomPositie(tileSize, enemySpawnMargin);
-
-            GameObject enemy = Instantiate(
-                enemyInfo.prefab,
-                spawnPos,
-                Quaternion.Euler(0, Random.Range(0f, 360f), 0)
-            );
-
-            enemy.transform.parent = enemiesParent.transform;
-
-            // BOSS instellingen
-            if (kamer.type == KamerType.Boss)
+            if (bossPrefab != null)
             {
-                EnemyAI ai = enemy.GetComponent<EnemyAI>();
-                EnemyCombat combat = enemy.GetComponent<EnemyCombat>();
-                Health hp = enemy.GetComponent<Health>();
+                // Spawn de baas precies in het midden van de kamer
+                Vector3 bossPos = kamer.CenterWorld(tileSize);
+                GameObject boss = Instantiate(bossPrefab, bossPos, Quaternion.identity);
 
-                if (ai != null) ai.isBoss = true;
-                if (combat != null) combat.isBoss = true;
-                if (hp != null) hp.isBoss = true;
+                boss.transform.parent = enemiesParent.transform;
+                boss.name = "THE_BOSS";
 
-                enemy.name = "BOSS";
+                // Forceer de Boss-instellingen in het Health script
+                Health hp = boss.GetComponent<Health>();
+                if (hp != null)
+                {
+                    hp.isBoss = true;
+                }
+
+                gespawndeEnemies.Add(boss);
+                Debug.Log("De Boss is gespawned in de laatste kamer!");
             }
             else
             {
-                enemy.name = $"{enemyInfo.naam}_{kamer.CenterX}_{kamer.CenterZ}_{i}";
+                Debug.LogError("Boss kamer gegenereerd, maar geen Boss Prefab toegewezen in de Inspector!");
             }
 
-            kamer.enemies.Add(enemy);
+            return; // Stop hier: we willen geen normale skeletons in de baas-kamer
+        }
+
+        // --- 2. NORMALE ENEMY SPAWN LOGICA ---
+        if (Random.value > kamerEnemySpawnKans) return;
+
+        int totaalEnemies = Random.Range(minEnemiesPerKamer, maxEnemiesPerKamer + 1);
+        for (int i = 0; i < totaalEnemies; i++)
+        {
+            EnemySpawnInfo enemyInfo = KiesRandomEnemy(kamer);
+            if (enemyInfo == null || enemyInfo.prefab == null) continue;
+
+            Vector3 spawnPos = kamer.GetRandomPositie(tileSize, enemySpawnMargin);
+            GameObject enemy = Instantiate(enemyInfo.prefab, spawnPos, Quaternion.Euler(0, Random.Range(0f, 360f), 0));
+
+            enemy.transform.parent = enemiesParent.transform;
             gespawndeEnemies.Add(enemy);
         }
     }
