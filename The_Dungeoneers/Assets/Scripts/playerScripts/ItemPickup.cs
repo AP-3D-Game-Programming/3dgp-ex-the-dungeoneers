@@ -40,20 +40,20 @@ public class ItemPickup : MonoBehaviour
 
         if (wasPickedUp)
         {
-            // NIEUW: Toon zwevende tekst
+            // 1. Check of de prefab wel is ingesteld in de Inspector
             if (floatingTextPrefab != null)
             {
                 GameObject ft = Instantiate(floatingTextPrefab, transform.position, Quaternion.identity);
-                // Groene tekst met "+ Naam"
-                ft.GetComponent<FloatingText>().SetText("+ " + item.itemName, Color.green);
+                
+                // 2. Check of het script wel op de prefab zit
+                FloatingText ftScript = ft.GetComponent<FloatingText>();
+                if (ftScript != null)
+                {
+                    ftScript.SetText("+ " + item.itemName, Color.green);
+                }
             }
 
-            Destroy(gameObject); // (heb je al)
-        }
-        // ...
-        else
-        {
-            Debug.Log("Inventory vol!");
+            Destroy(gameObject);
         }
     }
     

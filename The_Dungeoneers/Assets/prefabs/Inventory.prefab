@@ -1212,6 +1212,7 @@ GameObject:
   - component: {fileID: 1370543317923088301}
   - component: {fileID: 5595921931387021074}
   - component: {fileID: 2716861491385608725}
+  - component: {fileID: -1525138518870811286}
   m_Layer: 5
   m_Name: Inventory
   m_TagString: Untagged
@@ -1317,6 +1318,20 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::InventoryUI
   itemsParent: {fileID: 7961426381868821716}
   inventoryUI: {fileID: 5327843085861978005}
+--- !u!114 &-1525138518870811286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8264656250890343958}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: deb1e63330335ba4bbcf7faea0046087, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Inventory
+  items: []
+  space: 5
 --- !u!1 &8305467358037251516
 GameObject:
   m_ObjectHideFlags: 0
